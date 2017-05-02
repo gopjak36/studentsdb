@@ -1,0 +1,7 @@
+*.pyc
+*∼
+*.egg-info
+*.mo
+*.egg
+__pacahe__
+.DS_Store
