@@ -1,0 +1,30 @@
+/* Global Style */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+.alert{
+  /* Відстань звершу від статусного повідоилення */
+  margin-top: 10px;
+}
+
+#footer {
+  /* Лінія на футуром */
+  border-top: 1px solid #ddd;
+  /* Внутрішня відстань елемента до верхнбого краю */
+  padding-top: 10px;
+}
+
+/* Group Selector */
+#group-selector {
+  margin-top: 30px;
+}
+#group-selector select{
+  margin: 0;
+  width: 75%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  height: 30px;
+  line-height: 30px;
+  color: #555;
+}
