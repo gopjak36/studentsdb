@@ -33,3 +33,14 @@ h1, h2, h3, h4, h5, h6 {
 #btn-group{
   font-weight: bold;
 }
+
+/* Journal */
+
+#journal-head{
+  margin-top: 15px;
+}
+
+#journal{
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
