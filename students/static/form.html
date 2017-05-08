@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Форма-Сервіс Обліку Студентів</title>
+    <meta name="description"
+          value="Система Обліку Студунтів Навчального Закладу"/>
+
+    <!-- Style -->
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="./css/main.css">
+  </head>
+
+  <body>
+    <!--Start Container -->
+
+    <div class="container">
+
+      <!-- Start Form Page Content -->
+
+      <div class="row" id ="form">
+        <div class="col-xs-8">
+
+          <!-- Logo Head -->
+          <h2>Форма Редагування Студента</h2>
+
+          <!-- Start Form -->
+
+          <form class="form-horizontal" role="form">
+
+            <!-- Name Form -->
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">І’мя*</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="Ваше Ім’я">
+              </div>
+            </div>
+
+            <!-- Second Name Form -->
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">По-батькові</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="(Не Обовязково)">
+              </div>
+            </div>
+
+            <!-- Surname Form -->
+
+            <div class="form-group">
+              <label  class="col-sm-2 control-label">Прізвище*</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="Вашу Прізвище">
+              </div>
+            </div>
+
+            <!-- Bilet Form -->
+
+            <div class="form-group">
+              <label  class="col-sm-2 control-label">№ Білету*</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="Ваш номер білету">
+              </div>
+            </div>
+
+            <!-- Birthday Form -->
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Дата народження</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="дд-мм-рррр">
+              </div>
+            </div>
+
+            <!-- Image Form -->
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Фото</label>
+              <div class="col-sm-5">
+                <p class="form-control-static">Наразі <a href="#">1.jpg</a></p>
+                  <a href="#">Очистити</a>
+                  <br>
+                  Змінити: <input type="file"  class="input-file" >
+              </div>
+            </div>
+
+            <!-- Group Form -->
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Група*</label>
+              <div class="col-sm-5">
+                <select class="form-control">
+                    <option>МтМ-21</option>
+                    <option>МтМ-22</option>
+                    <option>МтМ-23</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Text Form -->
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Додаткові Нотатки</label>
+              <div class="col-sm-5">
+                <textarea class="form-control" rows="3" placeholder="Тут може бути додаткова інформація"></textarea>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+
+            <div class="form-group" >
+             <label class="col-md-2 control-label"></label>
+             <div class="col-md-8">
+                  <button class="btn btn-primary">Зберегти</button>
+                  <button class="btn btn-default">Скасувати</button>
+             </div>
+            </div>
+
+          </form>
+          <!-- End Form -->
+
+      </div>
+      <!-- End Form Page Content -->
+    </div>
+    <!-- End Container -->
+
+    <!-- Script -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  </body>
+
+</html>
