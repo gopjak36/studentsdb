@@ -5,7 +5,24 @@ from django.http import HttpResponse
 #Views for Students
 
 def students_list(request):
-    return render(request, 'students/students_list.html', {})
+    students = (
+        {'id':1,
+         'first_name': u'Віталій',
+         'second_name': u'Подоба',
+         'ticket':2123,
+         'image': 'img/me.jpeg'},
+         {'id':2,
+          'first_name': u'Василь',
+          'second_name': u'Петрович',
+          'ticket':1988,
+          'image': 'img/piv.png'},
+         {'id':3,
+          'first_name': u'Корост',
+          'second_name': u'Андрій',
+          'ticket': 2001,
+          'image':'img/podoba3.jpg'},
+    )
+    return render(request, 'students/students_list.html', {'students': students})
 
 def students_add(request):
     return HttpResponse('<h1>Students Add Form</h1>')
