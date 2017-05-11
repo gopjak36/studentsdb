@@ -57,3 +57,8 @@ def groups_edit(request, gid):
 
 def groups_delete(request, gid):
     return HttpResponse('<h1>Delete Group %s</h1>' % gid)
+
+# Views For Journal
+
+def journal_list(request):
+    return render(request, 'students/journal_list.html', {})
