@@ -54,20 +54,20 @@
 
   <tbody>
 
-    <!-- First Student -->
-
+    <!-- Start Students -->
+    {% for student in journal %}
     <tr>
-      <td>1</td>
-      <td><a title="Редагувати" href="#">Подоба Віталій</a></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox" checked="True"></td>
+      <td>{{ forloop.counter }}</td>
+      <td><a title="Редагувати" href="#">{{ student.name }}</a></td>
       <td><input type="checkbox"></td>
-      <td><input type="checkbox" ></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
+      <td><input type="checkbox"></td>
       <td><input type="checkbox"></td>
       <td><input type="checkbox"></td>
       <td><input type="checkbox"></td>
@@ -91,82 +91,8 @@
       <td><input type="checkbox"></td>
       <td><input type="checkbox"></td>
     </tr>
-
-    <!-- Second Student -->
-
-    <tr>
-      <td>2</td>
-      <td><a title="Редагувати" href="#">Корост Андрій</a></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" ></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-    </tr>
-
-    <!--Thirt Student-->
-
-    <tr>
-      <td>3</td>
-      <td><a title="Редагувати" href="#">Петрович Василь</a></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" checked="True"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox" ></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-    </tr>
+    {% endfor %}
+    <!-- End Students  -->
 
   </tbody>
 
