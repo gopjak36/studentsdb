@@ -48,9 +48,12 @@
       <div class="row" id="sub-header">
         <div class="col-xs-12">
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation"{% if request.path == '/' %} class="active" {% endif %}><a href="{% url "home" %}">Студенти</a></li>
-            <li role="presentation"{% if '/journal' in request.path %} class="active" {% endif %}><a href="{% url 'journal' %}">Віідвідування</a></li>
-            <li role="presentation"{% if '/groups' in request.path %} class="active" {% endif %}><a href="{% url "groups" %}">Групи</a></li>
+            {% url "home" as url_home %}
+            <li role="presentation"{% if request.path == url_home %} class="active" {% endif %}><a href="{% url "home" %}">Студенти</a></li>
+            {% url "journal" as url_journal %}
+            <li role="presentation"{% if request.path == url_journal  %} class="active" {% endif %}><a href="{% url 'journal' %}">Віідвідування</a></li>
+            {% url "groups" as url_groups %}
+            <li role="presentation"{% if request.path == url_groups %} class="active" {% endif %}><a href="{% url "groups" %}">Групи</a></li>
           </ul>
         </div>
       </div>
@@ -68,27 +71,9 @@
 
           <h2>{% block title %}{% endblock title %}</h2>
 
+          <!-- Start Content -->
           {% block content %}{% endblock content %}
-
-          <!--Pagination -->
-          {% if '/journal' in request.path  %}
-
-          {% else %}
-          <nav>
-            <ul class="pagination">
-              <li><a href="#">&laquo;</a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">&raquo;</a></li>
-            </ul>
-          </nav>
-
-          {% endif %}
-
-
+          <!-- End Content -->
         </div>
       </div>
       <!-- End Page Content -->
