@@ -5,3 +5,4 @@
 *.egg
 __pacahe__
 .DS_Store
+db.py
