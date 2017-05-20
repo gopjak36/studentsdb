@@ -2,20 +2,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from ..models import Group
+
 # Views For Groups
 
 def groups_list(request):
-    groups = (
-        {'id':1,
-         'name': u'МтМ-21',
-         'leader': u'Подоба Вітілій'},
-        {'id':2,
-         'name': u'МтМ-22',
-         'leader': u'Корост Андрій'},
-        {'id':3,
-         'name': u'МтМ-23',
-         'leader': u'Петрович Василь'},
-    )
+    groups = Group.objects.all()
     return render(request, 'students/groups_list.html',{'groups': groups})
 
 def groups_add(request):

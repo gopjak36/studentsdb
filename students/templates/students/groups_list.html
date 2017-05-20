@@ -26,7 +26,7 @@
               {% for group in groups %}
               <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.name }}</td>
+                <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.title }}</td>
                 <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.leader }}</td>
                 <td>
                   <div class="dropdown">
@@ -60,5 +60,5 @@
 
           <!--Pagination -->
           {% include 'students/paginator.html' %}
-          
+
 {% endblock content %}
