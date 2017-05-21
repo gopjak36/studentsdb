@@ -2,6 +2,7 @@
 from django.db import models
 
 class Journal(models.Model):
+    ''' Journal model '''
 
     class Meta(object):
         verbose_name=u"Журнал"
