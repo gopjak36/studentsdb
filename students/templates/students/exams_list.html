@@ -1,0 +1,38 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Іспити {% endblock meta_title %}
+
+{% block title %} Іспити {% endblock title %}
+
+{% block content %}
+
+  <table class="table table-hover table-striped">
+    <!-- Start Table Head -->
+    <thead>
+      <th><a href="">Назва</a></th>
+      <th><a href="">Группа</a></th>
+      <th><a href="">Викладач</a></th>
+      <th><a href="">Дата та Час</a></th>
+    </thead>
+    <!--End Table Head -->
+
+    <!-- Start Table Body -->
+    <tboby>
+
+      <!--Start Exams Info -->
+      {% for exam in exams %}
+        <tr>
+          <td>{{ exam.name }}</td>
+          <td><a href="{% url 'groups_edit' exam.group.id  %}">{{ exam.group }}</a></td>
+          <td>{{ exam.lecturer }}</td>
+          <td>{{ exam.time }}</td>
+        </tr>
+      {% endfor %}
+      <!-- End Exams Info -->
+    </tbody>
+    <!-- End Table Body  -->
+  </table>
+
+{% endblock content %}

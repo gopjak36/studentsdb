@@ -18,6 +18,9 @@ urlpatterns = patterns('',
     # Journal urls
     url(r'^journal/$', 'students.views.journal_list', name="journal"),
 
+    # Exam urls
+    url(r'^exams/$', 'students.views.exams_list', name="exams"),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 
