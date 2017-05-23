@@ -10,12 +10,32 @@
 
   <table class="table table-hover table-striped">
     <!-- Start Table Head -->
+    {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
     <thead>
-      <th><a href="">Назва</a></th>
-      <th><a href="">Группа</a></th>
-      <th><a href="">Викладач</a></th>
-      <th><a href="">Дата та Час</a></th>
+      <th>
+        <a href="{% url 'exams' %}?order_by=name{% if order_by == 'name' and reverse != '1' %}&amp;reverse=1{% endif %}">Назва
+          {% if order_by == 'name' and reverse != '1' %}&uarr;
+          {% elif order_by == 'name' and reverse == '1' %}&darr;
+          {% endif %}
+        </a>
+      </th>
+      <th>
+        <a href="{% url 'exams' %}?order_by=group{% if order_by == 'group' and reverse != '1' %}&amp;reverse=1{% endif %}">Группа
+          {% if order_by == 'group' and reverse != '1' %}&uarr;
+          {% elif order_by == 'group' and reverse == '1' %}&darr;
+          {% endif %}
+        </a>
+      </th>
+      <th>Викладач</th>
+      <th>
+        <a href="{% url 'exams' %}?order_by=time{% if order_by == 'time' and reverse != '1' %}&amp;reverse=1{% endif %}">Дата та Час
+          {% if order_by == 'time' and reverse != '1' %}&uarr;
+          {% elif order_by == 'time' and reverse == '1' %}&darr;
+          {% endif %}
+        </a>
+      </th>
     </thead>
+    {% endwith %}
     <!--End Table Head -->
 
     <!-- Start Table Body -->
@@ -25,7 +45,7 @@
       {% for exam in exams %}
         <tr>
           <td>{{ exam.name }}</td>
-          <td><a href="{% url 'groups_edit' exam.group.id  %}">{{ exam.group }}</a></td>
+          <td><a href="{% url 'groups_edit' exam.group.id  %}">{{ exam.group.title }}</a></td>
           <td>{{ exam.lecturer }}</td>
           <td>{{ exam.time }}</td>
         </tr>
