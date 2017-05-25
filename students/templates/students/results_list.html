@@ -14,7 +14,17 @@
   <!-- Start Table Head -->
   <thead class="table-bordered">
 
-    <th>#</th>
+    <!-- Order By first column -->
+    {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+    <th>
+      <a href="{% url 'results' %}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">#
+      {% if order_by == 'id' and reverse != '1' %}&uarr;
+      {% elif order_by == 'id' and reverse == '1' %}&darr;
+      {% endif %}
+      </a>
+    </th>
+    {% endwith %}
+
     <th>Іспит</th>
     <th>Студент</th>
     <th>Оцінка</th>

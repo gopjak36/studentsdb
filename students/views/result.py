@@ -9,4 +9,11 @@ from ..models import Result
 def results_list(request):
     results = Result.objects.all()
 
+    # Order By result list
+    order_by = request.GET.get('order_by', '')
+    if order_by in ('id',):
+        results = results.order_by(order_by)
+        if request.GET.get('reverse', '') == '1':
+            results = results.reverse()
+
     return render(request, 'students/results_list.html', {'results':results})
