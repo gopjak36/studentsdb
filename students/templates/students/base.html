@@ -56,6 +56,8 @@
             <li role="presentation"{% if request.path == url_groups %} class="active" {% endif %}><a href="{% url "groups" %}">Групи</a></li>
             {% url "exams" as url_exams %}
             <li role="presentation"{% if request.path == url_exams %} class="active" {% endif %}><a href="{% url "exams" %}">Іспити</a></li>
+            {% url "results" as url_results %}
+            <li role="presentation"{% if request.path == url_results %} class="active" {% endif %}><a href="{% url "results" %}">Результати</a></li>
           </ul>
         </div>
       </div>

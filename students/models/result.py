@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 
-class Resul(models.Model):
+class Result(models.Model):
     ''' Result Model '''
 
     class Meta(object):
@@ -24,4 +24,4 @@ class Resul(models.Model):
         null=True)
 
     def __unicode__(self):
-        return u"%s - %s" % (self.name_of_exam, self.name_of_exam.group)
+        return u"%s - %s %s - %s" % (self.name_of_exam, self.student.first_name, self.student.last_name, self.point)

@@ -21,6 +21,9 @@ urlpatterns = patterns('',
     # Exam urls
     url(r'^exams/$', 'students.views.exams_list', name="exams"),
 
+    # Result urls
+    url(r'^result/$', 'students.views.results_list', name="results"),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 
