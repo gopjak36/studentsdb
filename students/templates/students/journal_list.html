@@ -16,7 +16,15 @@
 
   <thead>
     <tr>
-      <th>#</th>
+      {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+      <th>
+        <a href="{% url 'journal' %}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">#
+        {% if order_by == 'id' and reverse != '1' %}&uarr;
+        {% elif order_by == 'id' and reverse == '1' %}&darr;
+        {% endif %}
+        </a>
+      </th>
+      {% endwith %}
       <th>Студент</th>
       <th>Пн 1</th>
       <th>Вт 2</th>
@@ -57,7 +65,7 @@
     <!-- Start Students -->
     {% for student in journal %}
     <tr>
-      <td>{{ forloop.counter }}</td>
+      <td>{{ student.id }}</td>
       <td><a title="Редагувати" href="{% url "students_edit" student.id %}">{{ student.student }}</a></td>
       <td><input type="checkbox"></td>
       <td><input type="checkbox"></td>
