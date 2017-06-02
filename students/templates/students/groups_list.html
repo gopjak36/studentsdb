@@ -47,7 +47,7 @@
     <tr>
       <td>{{ group.id }}</td>
       <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.title }}</td>
-      <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.leader }}</td>
+      <td><a title="Редагувати" href="{% url 'students_edit' group.leader.id %}">{{ group.leader }}</td>
       <td>
         <div class="dropdown">
         <button class="btn btn-default dropdown-toggle"
