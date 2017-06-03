@@ -91,7 +91,7 @@ def students_add(request):
                 if len(groups) !=1:
                     errors['student_group'] = u"Оберіть коректну групу"
                 else:
-                    data['student_group'] = student_group
+                    data['student_group'] = groups[0]
 
             # Photo validate
             photo = request.FILES.get('photo')
@@ -106,8 +106,8 @@ def students_add(request):
                 # save student to database
                 student.save()
 
-                #redirext user to student list
-                return HttpResponseRedirect(reverse('home'))
+                # redirect user to student list
+                return HttpResponseRedirect(u'%s?status_message=Студента успішно додано!' % reverse('home'))
 
             else:
                 # render form with errors and previus user input
@@ -118,7 +118,7 @@ def students_add(request):
         # Form cancel burron clicked?
         elif request.POST.get('cancel_button') is not None:
             # redirect to home page
-            return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(u'%s?status_message=Додавання студента скасовано!' % reverse('home'))
     else:
         # inital form render
         return render(request, 'students/students_add.html', {'groups': Group.objects.all().order_by('title')})

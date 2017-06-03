@@ -68,11 +68,21 @@
 
         <div class="col-xs-12" id="content-column">
 
-          {% comment "Not used alert so far" %}
-          <!-- Status Message -->
-          <div class="alert alert-warning">Зміни скасовано. </div>
-          {% endcomment %}
+          <!-- Start Status Message -->
+          {% block status_message %}
+          {% if errors %}
+          <div class="alert alert-warning">
+            Будь-ласка, виправте наступні помилки
+          </div>
+          {% elif request.GET.status_message %}
+          <div class="alert alert-warning">
+            {{ request.GET.status_message }}
+          </div>
+          {% endif %}
+          {% endblock status_message %}
+          <!-- End Status Message -->
 
+          <!-- Tittle Content -->
           <h2>{% block title %}{% endblock title %}</h2>
 
           <!-- Start Content -->
