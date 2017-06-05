@@ -16,8 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'or6fty3s-^0*d(lo9b#%2*sbe$u+!((92fpli#oz21do^#f@&)'
+from .security import SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -92,3 +91,13 @@ PORTAL_URL ='http://localhost:8000'
 # Configuration Media Files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+
+# EMAIL settings
+# here is smtp server details and admin email:
+ADMIN_EMAIL = 'admin@mail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'studentsdb00@gmail.com'
+from .email_password import EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True

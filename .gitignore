@@ -7,3 +7,5 @@ __pacahe__
 .DS_Store
 db.py
 /static
+security.py
+email_password.py
