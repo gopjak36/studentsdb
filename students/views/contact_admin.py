@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django import forms
 from django.core.mail import send_mail
@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from studentsdb.settings import ADMIN_EMAIL
 
 # Class for Contact Admin
-class ContacForm(forms.Form):
+class ContactForm(forms.Form):
 
     from_email = forms.EmailField(
                 label=u"Ваша Емейл Адресса")
@@ -45,10 +45,10 @@ def contact_admin(request):
             except Exception:
                 message = u"Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатись даною формою пізніше."
             else:
-                message = u"’Повідомлення успішно надіслане!"
+                message = u"Повідомлення успішно надіслане!"
 
             # Redirect to contact page with message:
-            return HttpResponseRedirect(u"%?status_message=%" % (reverse('contac_admin'), message))
+            return HttpResponseRedirect(u"%s?status_message=%s" % (reverse('contact_admin'), message))
 
     # if there not Post render blank form:
     else:
