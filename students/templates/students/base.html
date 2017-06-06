@@ -73,13 +73,13 @@
           <!-- Start Status Message -->
           {% block status_message %}
           {% if errors %}
-          <div class="alert alert-warning">
-            Будь-ласка, виправте наступні помилки
-          </div>
+            <div class="alert alert-warning">
+              Будь-ласка, виправте наступні помилки
+            </div>
           {% elif request.GET.status_message %}
-          <div class="alert alert-warning">
-            {{ request.GET.status_message }}
-          </div>
+            <div class="alert alert-warning">
+              {{ request.GET.status_message }}
+            </div>
           {% endif %}
           {% endblock status_message %}
           <!-- End Status Message -->
