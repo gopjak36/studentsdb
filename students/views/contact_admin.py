@@ -36,8 +36,9 @@ def contact_admin(request):
 
             # add data:
             subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
             from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message'] + u"  From Email: " + from_email
+
 
             # send email:
             try:
@@ -48,7 +49,7 @@ def contact_admin(request):
                 message = u"Повідомлення успішно надіслане!"
 
             # Redirect to contact page with message:
-            return HttpResponseRedirect(u"%s?status_message=%s" % (reverse('contact_admin'), message))
+            return HttpResponseRedirect(u"%s?status_message=%s" % (reverse('home'), message))
 
     # if there not Post render blank form:
     else:

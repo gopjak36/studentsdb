@@ -94,7 +94,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 
 # EMAIL settings
 # here is smtp server details and admin email:
-ADMIN_EMAIL = 'admin@mail.com'
+ADMIN_EMAIL = 'studentsdb00@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '465'
 EMAIL_HOST_USER = 'studentsdb00@gmail.com'
