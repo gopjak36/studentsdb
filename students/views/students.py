@@ -99,7 +99,10 @@ def students_add(request):
                 if not ((photo.content_type == 'image/jpeg') or (photo.content_type == 'image/png')):
                     errors['photo'] = u"Оберіть фото файл"
                 else:
-                    data['photo'] = photo
+                    if not (photo.size < 2000000):
+                        errors['photo'] = u"Фото повинно бути менше 2 МБ"
+                    else:
+                        data['photo'] = photo
 
             # Validate form fo errors
             if not errors:
