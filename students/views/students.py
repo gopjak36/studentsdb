@@ -96,7 +96,10 @@ def students_add(request):
             # Photo validate
             photo = request.FILES.get('photo')
             if photo:
-                data['photo'] = photo
+                if not ((photo.content_type == 'image/jpeg') or (photo.content_type == 'image/png')):
+                    errors['photo'] = u"Оберіть фото файл"
+                else:
+                    data['photo'] = photo
 
             # Validate form fo errors
             if not errors:
