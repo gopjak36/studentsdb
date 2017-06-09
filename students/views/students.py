@@ -9,7 +9,7 @@ from django.views.generic import UpdateView
 from django.forms import ModelForm
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Submit
 from crispy_forms.bootstrap import FormActions
 
 from ..models import Student, Group
@@ -157,7 +157,15 @@ class StudentUpdateForm(ModelForm):
         self.helper.field_class = 'col-sm-10'
 
         # add buttons
-        self.helper.layout[-1] = FormActions(
+        self.helper.layout = Layout(
+            'first_name',
+            'last_name',
+            'middle_name',
+            'birthday',
+            'photo',
+            'ticket',
+            'student_group',
+            'notes',
             Submit('add_button', u'Зберегти', css_class='btn btn-primary'),
             Submit('cancel_button', u'Скасувати', css_class='btn btn-link'),
         )
