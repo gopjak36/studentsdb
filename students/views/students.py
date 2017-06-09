@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 
 from django.views.generic import UpdateView
+from django.views.generic.edit import DeleteView
 from django.forms import ModelForm
 
 from crispy_forms.helper import FormHelper
@@ -184,5 +185,9 @@ class StudentUpdateView(UpdateView):
         else:
             return super(StudentUpdateView, self).post(request,*args,**kwargs)
 
-def students_delete(request, sid):
-    return HttpResponse('<h1>Delete Student %s</h1>' % sid)
+class StudentDeleteView(DeleteView):
+    model = Student
+    template_name = 'students/students_config_delete.html'
+
+    def get_success_url(self):
+        return u"%s?status_message= Студента успішно видалено!" % reverse('home')

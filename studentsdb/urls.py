@@ -1,17 +1,20 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from .settings import MEDIA_ROOT, DEBUG
-from students.views.students import StudentUpdateView
+from students.views.students import StudentUpdateView, StudentDeleteView
 
 urlpatterns = patterns('',
     # Students urls
     url(r'^$', 'students.views.students_list', name='home'),
+
+    # Add Student Form urls
     url(r'^students/add/$', 'students.views.students_add', name='students_add'),
 
     # Edit Student Form urls
     url(r'^students/(?P<pk>\d+)/edit/$', StudentUpdateView.as_view(), name="students_edit"),
 
-    url(r'^students/(?P<sid>\d+)/delete/$','students.views.students_delete', name='students_delete'),
+    # Delete Student urls
+    url(r'^students/(?P<pk>\d+)/delete/$',StudentDeleteView.as_view(), name='students_delete'),
 
     # Groups urls
     url(r'^groups/$', 'students.views.groups_list', name='groups'),
