@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
+from django.views.generic import UpdateView
 
 from ..models import Student, Group
 
@@ -129,8 +130,18 @@ def students_add(request):
         # inital form render
         return render(request, 'students/students_add.html', {'groups': Group.objects.all().order_by('title')})
 
-def students_edit(request, sid):
-    return HttpResponse('<h1>Edit Student %s</h1>' % sid)
+class StudentUpdateView(UpdateView):
+    model= Student
+    template_name = 'students/students_edit.html'
+
+    def get_success_url(self):
+        return u"%s?status_message= Студена успішно збережено!" % reverse('home')
+
+    def post(self,*args,**kwargs):
+        if request.POST.get('cancel_button'):
+            return HttpResponseRedirect(u"%?status_message= Рудагувати студента відмінено!" % reverse('home'))
+        else:
+            return super(StudentUpdateView, self).post(request,*args,**kwargs)         
 
 def students_delete(request, sid):
     return HttpResponse('<h1>Delete Student %s</h1>' % sid)
