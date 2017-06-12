@@ -13,6 +13,9 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from crispy_forms.bootstrap import FormActions
 
+# switch on status message:
+from django.contrib import messages
+
 from ..models import Student, Group
 
 #Views for Students
@@ -131,8 +134,10 @@ def students_add(request):
 
         # Form cancel burron clicked?
         elif request.POST.get('cancel_button') is not None:
+            # status message:
+            messages.error(request, 'Додавання студента скасовано!')
             # redirect to home page
-            return HttpResponseRedirect(u'%s?status_message=Додавання студента скасовано!' % reverse('home'))
+            return HttpResponseRedirect( reverse('home') )
     else:
         # inital form render
         return render(request, 'students/students_add.html', {'groups': Group.objects.all().order_by('title')})

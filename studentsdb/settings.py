@@ -33,10 +33,12 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
     'students',
+
+    # switch on status message:
+    'django.contrib.messages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,8 +47,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # switch on status message:
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 )
 
 ROOT_URLCONF = 'studentsdb.urls'
@@ -82,8 +87,8 @@ STATIC_URL = '/static/'
 from django.conf import global_settings
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-"django.core.context_processors.request",
-"studentsdb.context_processors.students_proc",
+    "django.core.context_processors.request",
+    "studentsdb.context_processors.students_proc",
 )
 
 # Add Portal URL
