@@ -123,8 +123,11 @@ def students_add(request):
                 # save student to database
                 student.save()
 
+                # status message of add student with first and last name:
+                messages.error(request,"Студента %s %s успішно додано!" % (str(student.first_name),str(student.last_name)))
+
                 # redirect user to student list
-                return HttpResponseRedirect(u'%s?status_message=Студента %s %s успішно додано!' % (reverse('home'), student.first_name, student.last_name))
+                return HttpResponseRedirect( reverse('home') )
 
             else:
                 # render form with errors and previus user input
@@ -134,7 +137,7 @@ def students_add(request):
 
         # Form cancel burron clicked?
         elif request.POST.get('cancel_button') is not None:
-            # status message:
+            # status message of cancel add student:
             messages.error(request, 'Додавання студента скасовано!')
             # redirect to home page
             return HttpResponseRedirect( reverse('home') )
@@ -181,12 +184,16 @@ class StudentUpdateView(UpdateView):
     template_name = 'students/students_edit.html'
     form_class = StudentUpdateForm
 
+    # TODO: update status message with django contrib
     def get_success_url(self):
         return u"%s?status_message= Студена успішно збережено!" % reverse('home')
 
     def post(self,request,*args,**kwargs):
         if request.POST.get('cancel_button'):
-            return HttpResponseRedirect(u"%s?status_message= Рудагуваня студента відмінено!" % reverse('home'))
+            # status message of cancel edit student:
+            messages.error(request,'Рудагуваня студента відмінено!')
+            # redirect to home page
+            return HttpResponseRedirect( reverse('home') )
         else:
             return super(StudentUpdateView, self).post(request,*args,**kwargs)
 
@@ -194,5 +201,6 @@ class StudentDeleteView(DeleteView):
     model = Student
     template_name = 'students/students_config_delete.html'
 
+    # TODO: update status message with django contrib
     def get_success_url(self):
         return u"%s?status_message= Студента успішно видалено!" % reverse('home')

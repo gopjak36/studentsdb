@@ -86,10 +86,13 @@
             <div class="alert alert-warning">
               Будь-ласка, виправте наступні помилки
             </div>
-          <!--{% elif request.GET.status_message %}
+
+          <!--Left this section, when wiil full update status message -->
+          {% elif request.GET.status_message %}
             <div class="alert alert-warning">
               {{ request.GET.status_message }}
-            </div>-->
+            </div>
+
           {% endif %}
           {% endblock status_message %}
           <!-- End Status Message -->
