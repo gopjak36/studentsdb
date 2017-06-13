@@ -184,23 +184,32 @@ class StudentUpdateView(UpdateView):
     template_name = 'students/students_edit.html'
     form_class = StudentUpdateForm
 
-    # TODO: update status message with django contrib
     def get_success_url(self):
-        return u"%s?status_message= Студена успішно збережено!" % reverse('home')
+        return reverse('home')
 
     def post(self,request,*args,**kwargs):
         if request.POST.get('cancel_button'):
             # status message of cancel edit student:
             messages.error(request,'Рудагуваня студента відмінено!')
-            # redirect to home page
+            # redirect to home page:
             return HttpResponseRedirect( reverse('home') )
         else:
+            # statuc message for sabe edit student, move from get_succes_url to this place:
+            messages.error(request ,'Студена успішно збережено!')
             return super(StudentUpdateView, self).post(request,*args,**kwargs)
 
 class StudentDeleteView(DeleteView):
     model = Student
     template_name = 'students/students_config_delete.html'
 
-    # TODO: update status message with django contrib
     def get_success_url(self):
-        return u"%s?status_message= Студента успішно видалено!" % reverse('home')
+        return reverse('home')
+
+    # create this section for status message:
+    def post(self, request, *args, **kwargs):
+        # check if push to delete button:
+        if request.POST.get('delete_button'):
+            # status message of delete student:
+            messages.error(request, 'Студента успішно видалено!')
+            # return HttpResponce object:
+            return super(StudentDeleteView, self).post(request,*args,**kwargs)

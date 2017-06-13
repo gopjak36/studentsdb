@@ -4,8 +4,12 @@ from django import forms
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+
+# switch on status message:
+from django.contrib import messages
 
 from studentsdb.settings import ADMIN_EMAIL
 
@@ -63,17 +67,16 @@ def contact_admin(request):
             from_email = form.cleaned_data['from_email']
             message = form.cleaned_data['message'] + u"  From Email: " + from_email
 
-
             # send email:
             try:
                 send_mail(subject, message, from_email, [ADMIN_EMAIL])
             except Exception:
-                message = u"Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатись даною формою пізніше."
+                messages.error(request,"Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатись даною формою пізніше.")
             else:
-                message = u"Повідомлення успішно надіслане!"
+                messages.error (request,"Повідомлення успішно надіслане!")
 
             # Redirect to contact page with message:
-            return HttpResponseRedirect(u"%s?status_message=%s" % (reverse('contact_admin'), message))
+            return HttpResponseRedirect(reverse('contact_admin'))
 
     # if there not Post render blank form:
     else:
