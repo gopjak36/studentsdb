@@ -65,7 +65,7 @@ def contact_admin(request):
             # add data:
             subject = form.cleaned_data['subject']
             from_email = form.cleaned_data['from_email']
-            message = form.cleaned_data['message'] + u"  From Email: " + from_email
+            message = form.cleaned_data['message'] # Not necessary in SendGrid, can see from email + u"  From Email: " + from_email
 
             # send email:
             try:

@@ -98,8 +98,18 @@ PORTAL_URL ='http://localhost:8000'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 
-# EMAIL settings
 # here is smtp server details and admin email:
+
+# SendGrid settings:
+ADMIN_EMAIL = 'studentsdb00@gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'studentsdb00'
+from .email_password import EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS = True
+
+# GMAIL settings
+'''
 ADMIN_EMAIL = 'studentsdb00@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '465'
@@ -107,6 +117,6 @@ EMAIL_HOST_USER = 'studentsdb00@gmail.com'
 from .email_password import EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-
+'''
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
