@@ -187,6 +187,14 @@ class StudentUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('home')
 
+    def form_valid(self, form):
+        # check photo size in stduent edit form:
+        if form.cleaned_data['photo'].size > 2000000:
+            # message with error:
+            form.add_error('photo', 'Фото повинно бути менше 2 МБ' )
+            return self.form_invalid(form)
+        return super(StudentUpdateView, self).form_valid(form)
+
     def post(self,request,*args,**kwargs):
         if request.POST.get('cancel_button'):
             # status message of cancel edit student:
