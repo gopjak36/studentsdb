@@ -32,6 +32,24 @@ class StudentAdmin(admin.ModelAdmin):
     def view_on_site(self,obj):
         return reverse('students_edit', kwargs={'pk': obj.id})
 
+class GroupFormAdmin(ModelForm):
+
+    def clean_leader(self):
+        ''' Check if student in correct student group '''
+        try:
+            # chek if leader form is empty:
+            if not self.cleaned_data['leader']:
+                return self.cleaned_data['leader']
+            # chek if student is in other groups:
+            elif self.cleaned_data['leader'].student_group.title != self.cleaned_data['title'] :
+                raise ValidationError('Студент не може бути старостою, бо належить до іншої групи')
+            # update info about student:
+            else:
+                return self.cleaned_data['leader']
+        # check if student is not in any group:
+        except AttributeError:
+            raise ValidationError('Студент не належить до груп, додайте студунта в групу')
+
 class GroupAdmin(admin.ModelAdmin):
     list_display = ['title', 'leader']
     list_display_link = ['title']
@@ -39,6 +57,8 @@ class GroupAdmin(admin.ModelAdmin):
     list_filter = ['title']
     list_per_page = 10
     search_fields = ['title', 'notes']
+
+    form = GroupFormAdmin
 
     def view_on_site(self, obj):
         return reverse('groups_edit', kwargs={'gid': obj.id})
