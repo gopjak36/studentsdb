@@ -18,6 +18,28 @@ class StudentFormAdmin(ModelForm):
 
         return self.cleaned_data['student_group']
 
+    def clean_photo(self):
+        ''' Check student upload files  '''
+
+        # ckeck if user upload new file:
+        if self.cleaned_data['photo']:
+            try:
+                # get content file of upload photo:
+                photo = self.cleaned_data['photo'].content_type.split('/')[1]
+                # raise error if file not png or jpge format:
+                if not(photo == 'png' or photo == 'jpeg'):
+                    raise ValidationError('Це не фото файл')
+                # raise error if file size is more then 2 Мb:
+                elif self.cleaned_data['photo'].size > 200000:
+                    raise ValidationError('Фото більше 2 Мб')
+            # if photo yet selected:
+            except AttributeError:
+                return self.cleaned_data['photo']
+        # if photo not selected:
+        else:
+             return self.cleaned_data['photo']
+
+
 class StudentAdmin(admin.ModelAdmin):
     list_display = ['last_name', 'first_name', 'ticket', 'student_group']
     list_display_links = ['last_name', 'first_name']
