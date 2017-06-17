@@ -15,6 +15,7 @@ from crispy_forms.bootstrap import FormActions
 
 # switch on status message:
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin  # use for success message in CreateView
 
 from ..models import Student, Group
 
@@ -58,7 +59,7 @@ class StudentViewForm(ModelForm):
         self.helper.form_class = 'form-horizontal'
 
         # set form field properties
-        self.helper.help_text_inline = True
+        self.helper.help_text_inline = False
         self.helper.label_class = 'col-sm-2 control-label'
         self.helper.field_class = 'col-sm-10'
 
@@ -76,13 +77,13 @@ class StudentViewForm(ModelForm):
             Submit('cancel_button', u'Скасувати', css_class='btn btn-link'),
         )
 
-class StudentCreateView(CreateView):
+class StudentCreateView(SuccessMessageMixin, CreateView):
     model = Student
     template_name = 'students/students_add.html'
     form_class = StudentViewForm
-
-    def get_success_url(self):
-        return reverse('home')
+    # status message of add student:
+    success_message = 'Студента успішно додано!'
+    success_url = '/'
 
     def post(self,request,*args,**kwargs):
         # check what user click:
@@ -92,8 +93,6 @@ class StudentCreateView(CreateView):
             # if push cancel button redirect to homepage:
             return HttpResponseRedirect( reverse('home') )
         else:
-            # status message of add student:
-            messages.error(request,'Студента успішно додано!')
             # if push else button save data and get_success_url:
             return super(StudentCreateView,self).post(request,*args,**kwargs)
 
@@ -101,9 +100,7 @@ class StudentUpdateView(UpdateView):
     model= Student
     template_name = 'students/students_edit.html'
     form_class = StudentViewForm
-
-    def get_success_url(self):
-        return reverse('home')
+    success_url = '/'
 
     # TODO: Add valid photos
 
@@ -121,9 +118,7 @@ class StudentUpdateView(UpdateView):
 class StudentDeleteView(DeleteView):
     model = Student
     template_name = 'students/students_config_delete.html'
-
-    def get_success_url(self):
-        return reverse('home')
+    success_url = '/'
 
     # create this section for status message:
     def post(self, request, *args, **kwargs):
