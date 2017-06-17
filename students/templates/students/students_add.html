@@ -2,21 +2,14 @@
 
 {% load static from staticfiles %}
 
+{% load crispy_forms_tags %}
+
 {% block meta_title %}Додавання Студента{% endblock meta_title %}
 
 {% block title %} Додавання Студента {% endblock title %}
 
 {% block content %}
 
-  <form action="{% url 'students_add' %}" method="post"
-        enctype="multipart/form-data"
-        class="form-horizontal">{% csrf_token%}
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <input type="submit" value="Зберегти" name="add_button" class="btn btn-primary"/>
-    <button type="Submit" value="Скасувати" name="cancel_button" class="btn btn-link">Скасувати</button>
-  <form>
-
+  {% crispy form %}
+  
 {% endblock content %}

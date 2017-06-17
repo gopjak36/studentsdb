@@ -44,17 +44,16 @@ def students_list(request):
 
     return render(request, 'students/students_list.html', {'students': students})
 
-class StudentUpdateForm(ModelForm):
+class StudentViewForm(ModelForm):
     class Meta:
         model = Student
 
     def __init__(self,*args,**kwargs):
-        super(StudentUpdateForm, self).__init__(*args,**kwargs)
+        super(StudentViewForm, self).__init__(*args,**kwargs)
 
         self.helper = FormHelper(self)
 
         # set form tag attribute
-        self.helper.form_action = reverse('students_edit', kwargs={'pk':kwargs['instance'].id})
         self.helper.form_method = 'POST'
         self.helper.form_class = 'form-horizontal'
 
@@ -81,6 +80,7 @@ class StudentUpdateForm(ModelForm):
 class StudentCreateView(CreateView):
     model = Student
     template_name = 'students/students_add.html'
+    form_class = StudentViewForm
 
     def get_success_url(self):
         return reverse('home')
@@ -97,11 +97,13 @@ class StudentCreateView(CreateView):
 class StudentUpdateView(UpdateView):
     model= Student
     template_name = 'students/students_edit.html'
-    form_class = StudentUpdateForm
+    form_class = StudentViewForm
 
     def get_success_url(self):
         return reverse('home')
 
+    # TODO: Fix bag with valid photo    
+    '''
     def form_valid(self, form):
         # check photo size in stduent edit form:
         if form.cleaned_data['photo'].size > 2000000:
@@ -109,7 +111,7 @@ class StudentUpdateView(UpdateView):
             form.add_error('photo', 'Фото повинно бути менше 2 МБ' )
             return self.form_invalid(form)
         return super(StudentUpdateView, self).form_valid(form)
-
+        '''
     def post(self,request,*args,**kwargs):
         if request.POST.get('cancel_button'):
             # status message of cancel edit student:
