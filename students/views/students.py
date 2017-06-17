@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 
 from django.views.generic import UpdateView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, CreateView
 from django.forms import ModelForm
 
 from crispy_forms.helper import FormHelper
@@ -43,6 +43,101 @@ def students_list(request):
         students = paginator.page(paginator.num_pages)
 
     return render(request, 'students/students_list.html', {'students': students})
+
+class StudentUpdateForm(ModelForm):
+    class Meta:
+        model = Student
+
+    def __init__(self,*args,**kwargs):
+        super(StudentUpdateForm, self).__init__(*args,**kwargs)
+
+        self.helper = FormHelper(self)
+
+        # set form tag attribute
+        self.helper.form_action = reverse('students_edit', kwargs={'pk':kwargs['instance'].id})
+        self.helper.form_method = 'POST'
+        self.helper.form_class = 'form-horizontal'
+
+        # set form field properties
+        self.helper.help_text_inline = True
+        self.helper.html5_required = True
+        self.helper.label_class = 'col-sm-2 control-label'
+        self.helper.field_class = 'col-sm-10'
+
+        # add buttons
+        self.helper.layout = Layout(
+            'first_name',
+            'last_name',
+            'middle_name',
+            'birthday',
+            'photo',
+            'ticket',
+            'student_group',
+            'notes',
+            Submit('add_button', u'Зберегти', css_class='btn btn-primary'),
+            Submit('cancel_button', u'Скасувати', css_class='btn btn-link'),
+        )
+
+class StudentCreateView(CreateView):
+    model = Student
+    template_name = 'students/students_add.html'
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def post(self,request,*args,**kwargs):
+        # check what user click:
+        if request.POST.get('cancel_button'):
+            # if push cancel button redirect to homepage:
+            return HttpResponseRedirect( reverse('home') )
+        else:
+            # if push else button save data and get_success_url:
+            return super(StudentCreateView,self).post(request,*args,**kwargs)
+
+class StudentUpdateView(UpdateView):
+    model= Student
+    template_name = 'students/students_edit.html'
+    form_class = StudentUpdateForm
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def form_valid(self, form):
+        # check photo size in stduent edit form:
+        if form.cleaned_data['photo'].size > 2000000:
+            # message with error:
+            form.add_error('photo', 'Фото повинно бути менше 2 МБ' )
+            return self.form_invalid(form)
+        return super(StudentUpdateView, self).form_valid(form)
+
+    def post(self,request,*args,**kwargs):
+        if request.POST.get('cancel_button'):
+            # status message of cancel edit student:
+            messages.error(request,'Рудагуваня студента відмінено!')
+            # redirect to home page:
+            return HttpResponseRedirect( reverse('home') )
+        else:
+            # statuc message for sabe edit student, move from get_succes_url to this place:
+            messages.error(request ,'Студена успішно збережено!')
+            return super(StudentUpdateView, self).post(request,*args,**kwargs)
+
+class StudentDeleteView(DeleteView):
+    model = Student
+    template_name = 'students/students_config_delete.html'
+
+    def get_success_url(self):
+        return reverse('home')
+
+    # create this section for status message:
+    def post(self, request, *args, **kwargs):
+        # check if push to delete button:
+        if request.POST.get('delete_button'):
+            # status message of delete student:
+            messages.error(request, 'Студента успішно видалено!')
+            # return HttpResponce object:
+            return super(StudentDeleteView, self).post(request,*args,**kwargs)
+'''
+# Method for add Student:
 
 def students_add(request):
     # Form posted?
@@ -145,79 +240,4 @@ def students_add(request):
         # inital form render
         return render(request, 'students/students_add.html', {'groups': Group.objects.all().order_by('title')})
 
-class StudentUpdateForm(ModelForm):
-    class Meta:
-        model = Student
-
-    def __init__(self,*args,**kwargs):
-        super(StudentUpdateForm, self).__init__(*args,**kwargs)
-
-        self.helper = FormHelper(self)
-
-        # set form tag attribute
-        self.helper.form_action = reverse('students_edit', kwargs={'pk':kwargs['instance'].id})
-        self.helper.form_method = 'POST'
-        self.helper.form_class = 'form-horizontal'
-
-        # set form field properties
-        self.helper.help_text_inline = True
-        self.helper.html5_required = True
-        self.helper.label_class = 'col-sm-2 control-label'
-        self.helper.field_class = 'col-sm-10'
-
-        # add buttons
-        self.helper.layout = Layout(
-            'first_name',
-            'last_name',
-            'middle_name',
-            'birthday',
-            'photo',
-            'ticket',
-            'student_group',
-            'notes',
-            Submit('add_button', u'Зберегти', css_class='btn btn-primary'),
-            Submit('cancel_button', u'Скасувати', css_class='btn btn-link'),
-        )
-
-class StudentUpdateView(UpdateView):
-    model= Student
-    template_name = 'students/students_edit.html'
-    form_class = StudentUpdateForm
-
-    def get_success_url(self):
-        return reverse('home')
-
-    def form_valid(self, form):
-        # check photo size in stduent edit form:
-        if form.cleaned_data['photo'].size > 2000000:
-            # message with error:
-            form.add_error('photo', 'Фото повинно бути менше 2 МБ' )
-            return self.form_invalid(form)
-        return super(StudentUpdateView, self).form_valid(form)
-
-    def post(self,request,*args,**kwargs):
-        if request.POST.get('cancel_button'):
-            # status message of cancel edit student:
-            messages.error(request,'Рудагуваня студента відмінено!')
-            # redirect to home page:
-            return HttpResponseRedirect( reverse('home') )
-        else:
-            # statuc message for sabe edit student, move from get_succes_url to this place:
-            messages.error(request ,'Студена успішно збережено!')
-            return super(StudentUpdateView, self).post(request,*args,**kwargs)
-
-class StudentDeleteView(DeleteView):
-    model = Student
-    template_name = 'students/students_config_delete.html'
-
-    def get_success_url(self):
-        return reverse('home')
-
-    # create this section for status message:
-    def post(self, request, *args, **kwargs):
-        # check if push to delete button:
-        if request.POST.get('delete_button'):
-            # status message of delete student:
-            messages.error(request, 'Студента успішно видалено!')
-            # return HttpResponce object:
-            return super(StudentDeleteView, self).post(request,*args,**kwargs)
+'''
