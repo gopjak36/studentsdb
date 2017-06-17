@@ -75,43 +75,5 @@ class ContactView(SuccessMessageMixin,FormView):
     def form_valid(self, form):
         # valid form:
         form.send_mail()
-        
+
         return super(ContactView, self).form_valid(form)
-
-'''
-# Just a method for ContactForm class
-
-# Views For Contact Admin:
-def contact_admin(request):
-
-    # Check if form posted:
-    if request.method == 'POST':
-
-        # Create a form instance and populate it with data from request:
-        form = ContactForm(request.POST)
-
-        # Check whether user data is valid:
-        if form.is_valid():
-
-            # add data:
-            subject = form.cleaned_data['subject']
-            from_email = form.cleaned_data['from_email']
-            message = form.cleaned_data['message'] # Not necessary in SendGrid, can see from email + u"  From Email: " + from_email
-
-            # send email:
-            try:
-                send_mail(subject, message, from_email, [ADMIN_EMAIL])
-            except Exception:
-                messages.error(request,"Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатись даною формою пізніше.")
-            else:
-                messages.error (request,"Повідомлення успішно надіслане!")
-
-            # Redirect to contact page with message:
-            return HttpResponseRedirect(reverse('contact_admin'))
-
-    # if there not Post render blank form:
-    else:
-        form = ContactForm()
-
-    return render(request, 'contact_admin/form.html', {'form': form})
-'''
