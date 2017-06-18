@@ -85,6 +85,18 @@ class StudentCreateView(SuccessMessageMixin, CreateView):
     success_message = 'Студента успішно додано!'
     success_url = '/'
 
+    def form_valid(self,form):
+
+        ''' Validate photo size '''
+        # chek if photo data empty, if empty don't validate photo:
+        if form.cleaned_data['photo']:
+            # ckeck if photo size > 2 Mb:
+            if form.cleaned_data['photo'].size > 2000000:
+                # add error to form:
+                form.add_error('photo','Фото повинно бути менше 2 МБ')
+                # return error:
+                return self.form_invalid(form)
+
     def post(self,request,*args,**kwargs):
         # check what user click:
         if request.POST.get('cancel_button'):
@@ -104,17 +116,28 @@ class StudentUpdateView(SuccessMessageMixin, UpdateView):
     # status message of update student form:
     success_message = 'Студена успішно збережено!'
 
-    # TODO: Add valid photos
 
     def form_valid(self, form):
+
+        ''' Validate leader '''
         # get groups when studnet is leader:
         groups = Group.objects.filter(leader=form.instance)
         # check if student leader in other groups:
         if len(groups) > 0 and form.cleaned_data['student_group'] != groups[0]:
             # add error to form:
-            form.add_error('student_group','Студент є старостою %s группи' % groups[0])
+            form.add_error('student_group','Студент є старостою іншої группи, а саме %s групи' % groups[0])
             # return error:
             return self.form_invalid(form)
+
+        ''' Validate photo size '''
+        # chek if photo data empty, if empty don't validate photo:
+        if form.cleaned_data['photo']:
+            # ckeck if photo size > 2 Mb:
+            if form.cleaned_data['photo'].size > 2000000:
+                # add error to form:
+                form.add_error('photo','Фото повинно бути менше 2 МБ')
+                # return error:
+                return self.form_invalid(form)
 
         return super(StudentUpdateView,self).form_valid(form)
 
