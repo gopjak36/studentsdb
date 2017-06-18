@@ -96,13 +96,27 @@ class StudentCreateView(SuccessMessageMixin, CreateView):
             # if push else button save data and get_success_url:
             return super(StudentCreateView,self).post(request,*args,**kwargs)
 
-class StudentUpdateView(UpdateView):
+class StudentUpdateView(SuccessMessageMixin, UpdateView):
     model= Student
     template_name = 'students/students_edit.html'
     form_class = StudentViewForm
     success_url = '/'
+    # status message of update student form:
+    success_message = 'Студена успішно збережено!'
 
     # TODO: Add valid photos
+
+    def form_valid(self, form):
+        # get groups when studnet is leader:
+        groups = Group.objects.filter(leader=form.instance)
+        # check if student leader in other groups:
+        if len(groups) > 0 and form.cleaned_data['student_group'] != groups[0]:
+            # add error to form:
+            form.add_error('student_group','Студент є старостою %s группи' % groups[0])
+            # return error:
+            return self.form_invalid(form)
+
+        return super(StudentUpdateView,self).form_valid(form)
 
     def post(self,request,*args,**kwargs):
         if request.POST.get('cancel_button'):
@@ -111,8 +125,6 @@ class StudentUpdateView(UpdateView):
             # redirect to home page:
             return HttpResponseRedirect( reverse('home') )
         else:
-            # statuc message for sabe edit student, move from get_succes_url to this place:
-            messages.error(request ,'Студена успішно збережено!')
             return super(StudentUpdateView, self).post(request,*args,**kwargs)
 
 class StudentDeleteView(DeleteView):
