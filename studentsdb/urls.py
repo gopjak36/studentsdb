@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from .settings import MEDIA_ROOT, DEBUG
-from students.views.students import StudentCreateView, StudentUpdateView, StudentDeleteView
+from students.views.students import StudentCreateView, StudentUpdateView
 from students.views.contact_admin import ContactView
 
 urlpatterns = patterns('',
@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^students/(?P<pk>\d+)/edit/$', StudentUpdateView.as_view(), name="students_edit"),
 
     # Delete Student urls
-    url(r'^students/(?P<pk>\d+)/delete/$',StudentDeleteView.as_view(), name='students_delete'),
+    url(r'^students/(?P<id>\d+)/delete/$','students.views.students_delete', name='students_delete'),
 
     # Groups urls
     url(r'^groups/$', 'students.views.groups_list', name='groups'),

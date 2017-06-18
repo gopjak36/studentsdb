@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -97,6 +97,8 @@ class StudentCreateView(SuccessMessageMixin, CreateView):
                 # return error:
                 return self.form_invalid(form)
 
+        return super(StudentCreateView,self).form_valid(form)
+
     def post(self,request,*args,**kwargs):
         # check what user click:
         if request.POST.get('cancel_button'):
@@ -150,16 +152,21 @@ class StudentUpdateView(SuccessMessageMixin, UpdateView):
         else:
             return super(StudentUpdateView, self).post(request,*args,**kwargs)
 
-class StudentDeleteView(DeleteView):
-    model = Student
-    template_name = 'students/students_config_delete.html'
-    success_url = '/'
+def students_delete(request,id):
+    ''' Method delete students '''
 
-    # create this section for status message:
-    def post(self, request, *args, **kwargs):
-        # check if push to delete button:
-        if request.POST.get('delete_button'):
-            # status message of delete student:
-            messages.error(request, 'Студента успішно видалено!')
-            # return HttpResponce object:
-            return super(StudentDeleteView, self).post(request,*args,**kwargs)
+    # if click delete button:
+    if request.POST.get('delete_button'):
+        obj = Student.objects.get(pk=id) # get object id:
+        obj.delete() # delete this object:
+        # add status message of delete student:
+        messages.error(request, 'Студента успішно видалено!')
+        return HttpResponseRedirect(reverse('home'))# redirect to homepage:
+    # if click cancel delete:
+    elif request.POST.get('cancel_button'):
+        # status message of cancel delete student:
+        messages.error(request,'Видалення студента скасовано!')
+        return HttpResponseRedirect(reverse('home'))# redirect to homtpage:
+    # get information, about template and id:
+    else:
+        return render(request, 'students/students_config_delete.html', {'id':id})
