@@ -7,7 +7,7 @@
 {% block title %} Облік Відвідування {% endblock title %}
 
 {% block content %}
-  {% if not studnets %}
+  {% if not students %}
     <div class="aler alert-warning">
         Поки немає жодного студента в базі. Будь-ласка,
         <a href="{% url 'students_add' %}">додайте першого.</a>
