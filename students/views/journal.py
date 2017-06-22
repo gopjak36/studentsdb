@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
+from calendar import monthrange, weekday, day_abbr
 
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 
-from ..models import Student
+from ..models import Student, MonthJournal
 from ..util import paginate
 
 class JournalView(TemplateView):
@@ -16,51 +18,56 @@ class JournalView(TemplateView):
         # get context from TemplateView class:
         context = super(JournalView,self).get_context_data(**kwargs)
 
-        # TODO: check wheter we were given month in parament,
-        #       if not - calculate current
-        # NOW: give back current:
-        today = datetime.today()
-        month = date(today.year, today.month, 1)
+        # chek if we need to display some specific month:
+        if self.request.GET.get('month'):
+            month = datetime.strptime(self.request.GET['month'],'%Y-%m-%d').date()
+        else:
+            # otherwise just displaying current month data:
+            today = datetime.today()
+            month = date(today.year, today.month, 1)
 
-        # TODO: calculate current year, next and preview month
-        # NOW: give back their statically:
-        context['prev_month'] = '2017-05-01'
-        context['next_month'] = '2017-07-01'
-        context['year'] = 2017
+        # calculate current year, next and previus month detail for month navigayion element in template:
+        next_year = month + relativedelta(month=1)
+        prev_year = month - relativedelta(month=1)
+        context['prev_year'] = prev_year.strftime('%Y-%m-%d')
+        context['next_year'] = prev_year.strftime('%Y-%m-%d')
+        context['year'] = month.year
+        context['month_verbose'] = month.strftime('%Y-%m-%d')
 
-        # TODO: also current month and verbose of month:
-        # NOW: statically:
-        context['cur_month'] = '2017-06-01'
-        context['month_verbose'] = u"Липень"
+        # variable for students pagination:
+        context['cur_month'] = month.strftime('%Y-%m-%d')
 
-        # TODO: calculate list of day in month
-        # NOW: statically:
-        context['month_header'] = [
-            {'day': 1, 'verbose': 'Пн'},
-            {'day': 2, 'verbose': 'Вт'},
-            {'day': 3, 'verbose': 'Ср'},
-            {'day': 4, 'verbose': 'Чт'},
-            {'day': 5, 'verbose': 'Пт'}]
+        # variable dor template to generate journal table header elements:
+        myear, mmonth = month.year, month.month
+        number_of_days = monthrange(myear, mmonth)[1]
+        context['month_header'] = [{
+            'day': d,
+            'verbose': day_abbr[weekday(myear, mmonth, d)][:2]}
+            for d in range(1, number_of_days+1)]
 
         # extract all students and ordered by last name:
         queryset = Student.objects.order_by('last_name')
 
-        # link for AJAX request:
+        # url to update student presence, for form post:
         update_url = reverse('journal')
 
-        # collect necressary data dor all students:
+        # collect necressary data for all students:
         students = []
         for student in queryset:
 
-            #TODO: extract journal for student and current month
+            # try to get journal object by month selected and current student:
+            try:
+                journal = MonthJournal.objects.get(student=student, date=month)
+            except Exception:
+                journal = None
 
-            # coolect days for student:
+            # coolect days for current student:
             days = []
-            for day in range(1,31):
+            for day in range(1,number_of_days+1):
                 days.append({
                     'day': day,
-                    'present': True,
-                    'date': date(2017, 6, day).strftime('%Y-%m-%d'),
+                    'present': journal and getattr(journal, 'present_day%d' % day, False) or False,
+                    'date': date(myear, mmonth, day).strftime('%Y-%m-%d'),
                 })
 
             # collect the rest data for student:
