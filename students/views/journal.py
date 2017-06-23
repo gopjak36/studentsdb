@@ -79,7 +79,7 @@ class JournalView(TemplateView):
             })
 
         # apply pagination for students list:
-        context = paginate(students, 10, self.request, context, var_name='students')
+        context = paginate(students, 5, self.request, context, var_name='students')
 
         # return update dictionary:
         return context
