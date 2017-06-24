@@ -32,7 +32,7 @@ class JournalView(TemplateView):
         context['prev_year'] = prev_year.strftime('%Y-%m-%d')
         context['next_year'] = prev_year.strftime('%Y-%m-%d')
         context['year'] = month.year
-        context['month_verbose'] = month.strftime('%Y-%m-%d')
+        context['month_verbose'] = month.strftime('%B')
 
         # variable for students pagination:
         context['cur_month'] = month.strftime('%Y-%m-%d')
