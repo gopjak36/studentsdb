@@ -38,15 +38,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
-/* Journal */
-
-#journal-head{
-  margin-top: 15px;
-}
-
-#journal{
-  margin-top: 10px;
-  margin-bottom: 30px;
+/* Journal Table Style */
+td.day-box,
+th.day-header {
+  padding: 3px !important;
+  vertical-align: middle !important;
+  text-align: center;
 }
 
 /* Form Style*/
