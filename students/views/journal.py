@@ -27,10 +27,10 @@ class JournalView(TemplateView):
             month = date(today.year, today.month, 1)
 
         # calculate current year, next and previus month detail for month navigayion element in template:
-        next_year = month + relativedelta(month=1)
-        prev_year = month - relativedelta(month=1)
-        context['prev_year'] = prev_year.strftime('%Y-%m-%d')
-        context['next_year'] = prev_year.strftime('%Y-%m-%d')
+        next_month = month + relativedelta(months=1)
+        prev_month = month - relativedelta(months=1)
+        context['prev_month'] = prev_month.strftime('%Y-%m-%d')
+        context['next_month'] = next_month.strftime('%Y-%m-%d')
         context['year'] = month.year
         context['month_verbose'] = month.strftime('%B')
 

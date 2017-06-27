@@ -16,7 +16,7 @@
 
     <!-- Start Journal Nav -->
     <p id="journal-nav" class="text-center">
-      <a href="?=month={{ prev_month }}"
+      <a href="?month={{ prev_month }}"
           title="Попередній Місяць">&larr;</a>
       <!-- TODO: translate month name -->
       <strong>{{ month_verbose }} {{ year }}</strong>
@@ -38,7 +38,7 @@
           <th class="day-header">
             <!-- TODO: translate day name -->
             {{ day.verbose }}
-            <br />
+            <br/>
             {{ day.day }}
           </th>
           {% endfor %}
