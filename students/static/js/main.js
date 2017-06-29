@@ -1,5 +1,5 @@
 function initJournal() {
-  $('#journal-table input[type="checkbox"]').click(function(event){
+  $('.day-box input[type="checkbox"]').click(function(event){
     var box = $(this);
     $.ajax(box.data('url'), {
       'type': 'POST',

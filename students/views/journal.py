@@ -10,6 +10,8 @@ from django.views.generic.base import TemplateView
 from ..models import Student, MonthJournal
 from ..util import paginate
 
+from django.http import JsonResponse
+
 class JournalView(TemplateView):
     template_name = 'students/journal.html'
 
@@ -83,3 +85,6 @@ class JournalView(TemplateView):
 
         # return update dictionary:
         return context
+
+    def post(self, request, *args, **kwargs):
+        return JsonResponse({'key':'value'})
