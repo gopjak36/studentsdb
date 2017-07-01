@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from .models import Group
 
 def paginate(objects, size, request, context, var_name='object_list'):
     """"Paginate objects provided by view.
@@ -30,3 +31,36 @@ def paginate(objects, size, request, context, var_name='object_list'):
     context['paginator'] = paginator
 
     return context
+
+def get_groups(request):
+    ''' Return list of existing groups '''
+
+    # get currently selected group:
+    cur_group = get_current_group(request)
+
+    groups = []
+    for group in Group.objects.all().order_by('title'):
+        groups.append({
+            'id': group.id,
+            'title': group.title,
+            'leader': group.leader and (u'%s %s' % (group.leader.first_name, group.leader.last_name)) or None,
+            'selected': cur_group and cur_group.id == group.id and True or False
+        })
+
+    return groups
+
+def get_current_group(request):
+    ''' Return currently selected group or None '''
+
+    # remember selected group in a cookies:
+    pk = request.COOKIES.get('pk')
+
+    if pk:
+        try:
+            group = Group.object.get(pk = int(pk))
+        except Group.DoesNotExist:
+            return None
+        else:
+            return group
+    else:
+        return None
