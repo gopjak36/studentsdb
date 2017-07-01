@@ -19,10 +19,18 @@ from django.contrib.messages.views import SuccessMessageMixin  # use for success
 
 from ..models import Student, Group
 
+from ..util import get_current_group
+
 #Views for Students
 
 def students_list(request):
-    students = Student.objects.all()
+
+    current_group = get_current_group(request)
+
+    if current_group:
+        students = Student.objects.filter(student_group=current_group)
+    else:
+        students = Student.objects.all()
 
     # Order By students list
     order_by = request.GET.get('order_by', '')
