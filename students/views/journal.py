@@ -47,8 +47,11 @@ class JournalView(TemplateView):
             'verbose': day_abbr[weekday(myear, mmonth, d)][:2]}
             for d in range(1, number_of_days+1)]
 
-        # extract all students and ordered by last name:
-        queryset = Student.objects.order_by('last_name')
+        # extract one student from database, or all students and ordered by last name:
+        if kwargs.get('pk'):
+            queryset = [Student.objects.get(pk=kwargs['pk'])]
+        else:
+            queryset = Student.objects.order_by('last_name')
 
         # url to update student presence, for form post:
         update_url = reverse('journal')
