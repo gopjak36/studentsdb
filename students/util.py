@@ -53,11 +53,11 @@ def get_current_group(request):
     ''' Return currently selected group or None '''
 
     # remember selected group in a cookies:
-    pk = request.COOKIES.get('pk')
+    pk = request.COOKIES.get('current_group')
 
     if pk:
         try:
-            group = Group.object.get(pk = int(pk))
+            group = Group.objects.get(pk=int(pk))
         except Group.DoesNotExist:
             return None
         else:
