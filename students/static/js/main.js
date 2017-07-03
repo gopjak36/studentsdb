@@ -77,8 +77,15 @@ function initEditStudentPage() {
         modal.find('.modal-title').html(html.find('#content-column h2').text());
         modal.find('.modal-body').html(form);
 
+        // init our edit form:
+        initEditStudentForm(form, modal);
+
         // setup ans show modal window:
-        modal.modal('show');
+        modal.modal({
+          'keyboard': false,
+          'backdrop': false,
+          'show': true
+        });
       },
       'error': function(){
         alert('Помилка на сервері. Спробуйте будь-ласка пізніше.');
@@ -90,9 +97,48 @@ function initEditStudentPage() {
   });
 }
 
+function initEditStudentForm(form, modal){
+  // attach datepicker:
+  initDateFields;
+
+  // close modal window on Cancel button click:
+  form.find('input[name="cancel_button"]').click(function(event){
+    modal.modal('hide');
+    return false;
+  });
+
+  // make form work in Ajax mode:
+  form.ajaxForm({
+    'dataType': 'html',
+    'error': function(){
+      alert('Помилка на сервері. Спробуйте будь-ласка пізніше.');
+      return false;
+    },
+    'success': function(data, status, xhr){
+      var html = $(data), newform = html.find('#content-column form');
+
+      // copy alert to modal window:
+      modal.find('.modal-body').html(html.find('.alert'));
+
+      // copy form to modal if we found it in server response:
+      if (newform.length > 0){
+        modal.find('.modal-body').append(newform);
+
+        // intialize form fields and button:
+        initEditStudentForm(newform, modal);
+      } else {
+        // if not form, it means success and we need to relod page to get update student list;
+        // reload after 2 seconds, so that user can read success message:
+        setTimeout(function(){location.reload(true);}, 500);
+      }
+    }
+  });
+}
+
 $(document).ready(function(){
   initJournal();
   initGroupSelector();
   initDateFields();
   initEditStudentPage();
+  initEditStudentForm();
 });
