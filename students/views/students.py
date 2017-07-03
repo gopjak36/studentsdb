@@ -63,6 +63,8 @@ class StudentViewForm(ModelForm):
         self.helper = FormHelper(self)
 
         # set form tag attribute
+        self.helper.form_action = reverse('students_edit',
+            kwargs={'pk': kwargs['instance'].id})
         self.helper.form_method = 'POST'
         self.helper.form_class = 'form-horizontal'
 

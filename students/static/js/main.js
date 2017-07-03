@@ -72,8 +72,7 @@ function initEditStudentPage() {
         }
 
         // update modal window with arrived content from server:
-        var modal = $('#myModal'),
-          html = $(data), form = html.find('#content-column form');
+        var modal = $('#myModal'), html = $(data), form = html.find('#content-column form');
         modal.find('.modal-title').html(html.find('#content-column h2').text());
         modal.find('.modal-body').html(form);
 
@@ -99,7 +98,7 @@ function initEditStudentPage() {
 
 function initEditStudentForm(form, modal){
   // attach datepicker:
-  initDateFields;
+  initDateFields();
 
   // close modal window on Cancel button click:
   form.find('input[name="cancel_button"]').click(function(event){
@@ -108,7 +107,7 @@ function initEditStudentForm(form, modal){
   });
 
   // make form work in Ajax mode:
-  form.ajaxForm({
+  form.ajaxForm ({
     'dataType': 'html',
     'error': function(){
       alert('Помилка на сервері. Спробуйте будь-ласка пізніше.');
@@ -121,11 +120,12 @@ function initEditStudentForm(form, modal){
       modal.find('.modal-body').html(html.find('.alert'));
 
       // copy form to modal if we found it in server response:
-      if (newform.length > 0){
+      if ( newform.length > 0){
         modal.find('.modal-body').append(newform);
 
         // intialize form fields and button:
         initEditStudentForm(newform, modal);
+
       } else {
         // if not form, it means success and we need to relod page to get update student list;
         // reload after 2 seconds, so that user can read success message:
