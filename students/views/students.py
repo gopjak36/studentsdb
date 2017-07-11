@@ -11,7 +11,7 @@ from django.forms import ModelForm
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.bootstrap import FormActions, AppendedPrependedText
 
 # switch on status message:
 from django.contrib import messages
@@ -84,7 +84,7 @@ class StudentViewForm(ModelForm):
             'first_name',
             'last_name',
             'middle_name',
-            'birthday',
+            AppendedPrependedText('birthday','<span class="glyphicon glyphicon-calendar"></span>'),
             'photo',
             'ticket',
             'student_group',
