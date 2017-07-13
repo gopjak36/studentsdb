@@ -9,6 +9,8 @@
 {% block content %}
   <form class="form-horizontal" role="form" action="{% url 'groups_add' %}" method="post" enctype="multipart/form-data">
 
+    {% csrf_token %}
+
     <div class="form-group">
       <label for="title" class="col-sm-2 control-label">Назва</label>
       <div class="col-sm-10">
@@ -36,8 +38,8 @@
     </div>
 
     <div>
-      <input type="submit" value="Додати" name="add_button" />
-      <input type="submit" value="Скасувати" name="cancel_button" />
+      <input type="submit" value="Додати" name="add_button" class="btn btn-primary" />
+      <input type="submit" value="Скасувати" name="cancel_button" class="btn btn-default" />
     </div>
 
   </form>
