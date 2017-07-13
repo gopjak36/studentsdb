@@ -38,27 +38,37 @@ def groups_add(request):
     if request.method == 'POST':
         # add_button == push:
         if request.POST.get('add_button') is not None:
-            # TODO: Validate input from user:
+            # errors collection:
             errors ={}
-
+            # don't validate student data:
+            data = {'notes': request.POST.get('notes')}
+            # Title validate:
+            title = request.POST.get('title').strip()
+            if not title:
+                errors['title'] = u"Назва є обов'язковою"
+            else:
+                data['title'] = title
+            # Leader validate:
+            leader = request.POST.get('leader')
+            if not leader:
+                errors['leader'] = u"Оберіть старосту для групи "
+            else:
+                leader = Student.objects.get(pk=request.POST['leader'])
+                data['leader'] = leader
             if not errors:
                 # create new group object:
-                group = Group(
-                title=request.POST['title'],
-                leader=Student.objects.get(pk=request.POST['leader']),
-                notes=request.POST['notes'],
-                )
+                group = Group(**data)
                 # save group to database:
                 group.save()
                 # redirect to group list:
-                return HttpResponseRedirect(reverse('groups'))
+                return HttpResponseRedirect(u'%s?status_message=Групу %s успішно додано!' % (reverse('groups'), title))
             else:
                 # redirect form with erros and previus user input:
-                return render(request, 'students/groups_add.html', {'groups':Group.objects.all().order_by('last_name'),'errors': errors})
+                return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name'),'errors': errors})
         # cancel_button == push:
         elif request.POST.get('cancel_button') is not None:
-            # redirect to group_list:
-            return HttpResponseRedirect(reverse('groups'))
+            # redirect to group_list and cancel status message:
+            return HttpResponseRedirect(u'%s?status_message=Додавання скасовано!' % reverse('groups'))
     # Form POST == NO:
     else:
         # initial form render:
