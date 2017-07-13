@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from ..models import Group
+from ..models import Group, Student
 
 # Views For Groups
 
@@ -32,7 +32,7 @@ def groups_list(request):
     return render(request, 'students/groups_list.html',{'groups': groups})
 
 def groups_add(request):
-    return HttpResponse('<h1>Group Add Form</h1>')
+    return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name')})
 
 def groups_edit(request, gid):
     return HttpResponse('<h1>Edit Group %s</h1>' % gid)
