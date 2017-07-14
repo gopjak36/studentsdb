@@ -60,11 +60,12 @@ def groups_add(request):
                 group = Group(**data)
                 # save group to database:
                 group.save()
-                # redirect to group list:
+                # redirect to group list and success status message:
                 return HttpResponseRedirect(u'%s?status_message=Групу %s успішно додано!' % (reverse('groups'), title))
             else:
                 # redirect form with erros and previus user input:
-                return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name'),'errors': errors})
+                return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name'),
+                                                                    'errors': errors})
         # cancel_button == push:
         elif request.POST.get('cancel_button') is not None:
             # redirect to group_list and cancel status message:
@@ -75,7 +76,36 @@ def groups_add(request):
         return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name')})
 
 def groups_edit(request, gid):
-    return render(request, 'students/groups_edit.html', {'group':Group.objects.get(pk=gid), 'students': Student.objects.all().order_by('last_name')})
+    # Form POST == YES:
+    if request.method == 'POST':
+        # add_button == PUSH:
+        if request.POST.get('add_button') is not None:
+            # TODO: errors validation:
+            errors = {}
+            if not errors:
+                # update date in group:
+                Group.objects.filter(pk=gid).update(
+                    title = request.POST.get('title'),
+                    leader = Student.objects.get(pk=request.POST['leader']),
+                    notes = request.POST.get('notes')
+                )
+
+                # redirect to groups page:
+                return HttpResponseRedirect(reverse('groups'))
+            else:
+                # redirect form with errors and previus user input:
+                return render(reqeust, 'students/groups_edit', {'group':Group.objects.get(pk=gid),
+                                                                'students': Student.objects.all().order_by('last_name'),
+                                                                'errors': errors})
+        # cancel_button == PUSH:
+        if request.POST.get('cancel_button') is not None:
+            # redirect to groups page:
+            return HttpResponseRedirect(reverse('groups'))
+    # Form POST == NO:
+    else:
+        # Initial Form render:
+        return render(request, 'students/groups_edit.html', {'group':Group.objects.get(pk=gid),
+                                                            'students': Student.objects.all().order_by('last_name')})
 
 def groups_delete(request, gid):
     return HttpResponse('<h1>Delete Group %s</h1>' % gid)
