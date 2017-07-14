@@ -40,7 +40,7 @@ def groups_add(request):
         if request.POST.get('add_button') is not None:
             # errors collection:
             errors ={}
-            # don't validate student data:
+            # don't validate group data:
             data = {'notes': request.POST.get('notes')}
             # Title validate:
             title = request.POST.get('title').strip()
@@ -51,7 +51,7 @@ def groups_add(request):
             # Leader validate:
             leader = request.POST.get('leader')
             if not leader:
-                errors['leader'] = u"Оберіть старосту для групи "
+                errors['leader'] = u"Оберіть старосту для групи"
             else:
                 leader = Student.objects.get(pk=request.POST['leader'])
                 data['leader'] = leader
@@ -80,27 +80,37 @@ def groups_edit(request, gid):
     if request.method == 'POST':
         # add_button == PUSH:
         if request.POST.get('add_button') is not None:
-            # TODO: errors validation:
+            # errors collection:
             errors = {}
+            # don't validate group data:
+            data = {'notes': request.POST.get('notes')}
+            # Title validation:
+            title = request.POST.get('title')
+            if not title:
+                errors['title'] = u"Назва є обов'язковою"
+            else:
+                data['title'] = title
+            # Leader validation:
+            leader = request.POST.get('leader')
+            if not leader:
+                errors['leader'] = u"Оберіть старосту для групи"
+            else:
+                data['leader'] =  Student.objects.get(pk=request.POST['leader'])
             if not errors:
                 # update date in group:
-                Group.objects.filter(pk=gid).update(
-                    title = request.POST.get('title'),
-                    leader = Student.objects.get(pk=request.POST['leader']),
-                    notes = request.POST.get('notes')
-                )
-
-                # redirect to groups page:
-                return HttpResponseRedirect(reverse('groups'))
+                Group.objects.filter(pk=gid).update(**data)
+                # redirect to groups page with success status message:
+                return HttpResponseRedirect(u'%s?status_message=Группу %s успішно збережено!' % (reverse('groups'), title))
             else:
                 # redirect form with errors and previus user input:
-                return render(reqeust, 'students/groups_edit', {'group':Group.objects.get(pk=gid),
-                                                                'students': Student.objects.all().order_by('last_name'),
-                                                                'errors': errors})
+                return render(request, 'students/groups_edit.html', {'group': Group(**data),
+                                                                    'students': Student.objects.all().order_by('last_name'),
+                                                                    'errors': errors,
+                                                                    'gid': gid})
         # cancel_button == PUSH:
         if request.POST.get('cancel_button') is not None:
-            # redirect to groups page:
-            return HttpResponseRedirect(reverse('groups'))
+            # redirect to groups page with cancel status message:
+            return HttpResponseRedirect(u'%s?status_message=Редагування скасовано!' % reverse('groups'))
     # Form POST == NO:
     else:
         # Initial Form render:

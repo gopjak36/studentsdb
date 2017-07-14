@@ -93,4 +93,4 @@ admin.site.register(Journal)
 admin.site.register(Exam)
 admin.site.register(Result)
 # Register MonthJournal model:
-admin.site.register(MonthJournal)
+admin.register(MonthJournal)

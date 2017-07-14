@@ -7,14 +7,15 @@
 {% block title %}Редагувати Групу{% endblock title %}
 
 {% block content %}
-  <form class="form-horizontal" role="form" action="{% url 'groups_edit' group.id %}" method="post" enctype="multipart/form-data">
+  <form class="form-horizontal" role="form" action="{% if errors %}{% url 'groups_edit' gid %}{% else %}{% url 'groups_edit' group.id %}{% endif %}" method="post" enctype="multipart/form-data">
 
       {% csrf_token %}
 
       <div class="form-group">
         <label for="title" class="col-sm-2 control-label">Назва*</label>
         <div class="col-sm-10">
-          <input class="form-control" name="title" id="title" value="{{ group.title}}"/>
+          <input class="form-control" name="title" id="title" value="{{ group.title }}"/>
+          <span class="help-block">{{ errors.title }}</span>
         </div>
       </div>
 
@@ -24,9 +25,10 @@
           <select class="form-control" name="leader" id ="leader">
             <option value="">Виберіть старосту</option>
             {% for student in students %}
-              <option value="{{ student.id}}" {% if student.id == group.leader.id %}selected="1"{% endif %}>{{ student }}</option>
+              <option value="{{ student.id }}" {% if student.id == request.POST.leader|add:0 %}selected="1"{% endif %}>{{ student }}</option>
             {% endfor %}
           </select>
+          <span class="help-block">{{ errors.leader }}</span>
         </div>
       </div>
 
