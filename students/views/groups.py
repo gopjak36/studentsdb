@@ -75,7 +75,7 @@ def groups_add(request):
         return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name')})
 
 def groups_edit(request, gid):
-    return HttpResponse('<h1>Edit Group %s</h1>' % gid)
+    return render(request, 'students/groups_edit.html', {'group':Group.objects.get(pk=gid), 'students': Student.objects.all().order_by('last_name')})
 
 def groups_delete(request, gid):
     return HttpResponse('<h1>Delete Group %s</h1>' % gid)

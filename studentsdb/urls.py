@@ -18,10 +18,16 @@ urlpatterns = patterns('',
     # Delete Student urls
     url(r'^students/(?P<id>\d+)/delete/$','students.views.students_delete', name='students_delete'),
 
-    # Groups urls
+    # Groups url:
     url(r'^groups/$', 'students.views.groups_list', name='groups'),
+
+    # Add Group url:
     url(r'^groups/add/$', 'students.views.groups_add', name='groups_add'),
+
+    # Edit Group url:
     url(r'^groups/(?P<gid>\d+)/edit/$','students.views.groups_edit', name='groups_edit'),
+
+    # Delete Group url:
     url(r'^groups/(?P<gid>\d+)/delete/$','students.views.groups_delete', name='groups_delete'),
 
     # Journal urls
@@ -33,9 +39,10 @@ urlpatterns = patterns('',
     # Result urls
     url(r'^result/$', 'students.views.results_list', name="results"),
 
-    # Contact Admin Form urls
+    # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
 
+    # Admin Panel url:
     url(r'^admin/', include(admin.site.urls)),
 )
 
