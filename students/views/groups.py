@@ -53,8 +53,16 @@ def groups_add(request):
             if not leader:
                 errors['leader'] = u"Оберіть старосту для групи"
             else:
+                # Validation Leader group:
                 leader = Student.objects.get(pk=request.POST['leader'])
-                data['leader'] = leader
+                # Student have group == NO:
+                if not leader.student_group:
+                    errors['leader'] = u"Студент не може бути старостою, бо не належить до жодної групи"
+                # Student group title (behove) == title:
+                elif leader.student_group.title != title:
+                    errors['leader'] = u"Студент не може бути старостою, бо не належить до даної групи"
+                else:
+                    data['leader'] = leader
             if not errors:
                 # create new group object:
                 group = Group(**data)
@@ -95,7 +103,16 @@ def groups_edit(request, gid):
             if not leader:
                 errors['leader'] = u"Оберіть старосту для групи"
             else:
-                data['leader'] =  Student.objects.get(pk=request.POST['leader'])
+                # Validation Leader group:
+                leader = Student.objects.get(pk=request.POST['leader'])
+                # Student have group == NO:
+                if not leader.student_group:
+                    errors['leader'] = u"Студент не може бути старостою, бо не належить до жодної групи"
+                # Student group title (behove) == title:
+                elif leader.student_group.title != title:
+                    errors['leader'] = u"Студент не може бути старостою, бо не належить до даної групи"
+                else:
+                    data['leader'] = leader
             if not errors:
                 # update date in group:
                 Group.objects.filter(pk=gid).update(**data)
