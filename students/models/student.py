@@ -47,7 +47,7 @@ class Student(models.Model):
         verbose_name=u"Група",
         blank=True,
         null=True,
-        on_delete=models.PROTECT)
+        on_delete=models.SET_NULL)
 
     def __unicode__(self):
         return u"%s %s" %(self.first_name, self.last_name)

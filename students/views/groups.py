@@ -146,7 +146,7 @@ def groups_delete(request, gid):
             # delete select group from database:
             group.delete()
             # redirect to groups page with success message:
-            return HttpResposeRedirect(u'%s?status_message=Групу %s успішно видалено!' % (reverse('groups'), group))
+            return HttpResponseRedirect(u'%s?status_message=Групу %s успішно видалено!' % (reverse('groups'), group))
 
         # cancel_button = PUSH:
         elif request.POST.get('cancel_button') is not None:

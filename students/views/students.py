@@ -173,8 +173,8 @@ def students_delete(request,id):
 
     # if click delete button:
     if request.POST.get('delete_button'):
-        obj = Student.objects.get(pk=id) # get object id:
-        obj.delete() # delete this object:
+        student = Student.objects.get(pk=id) # get object id:
+        student.delete() # delete this object:
         # add status message of delete student:
         messages.error(request, 'Студента успішно видалено!')
         return HttpResponseRedirect(reverse('home'))# redirect to homepage:
@@ -185,4 +185,4 @@ def students_delete(request,id):
         return HttpResponseRedirect(reverse('home'))# redirect to homtpage:
     # get information, about template and id:
     else:
-        return render(request, 'students/students_config_delete.html', {'id':id})
+        return render(request, 'students/students_config_delete.html', {'student':Student.objects.get(pk=id)})
