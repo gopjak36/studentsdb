@@ -33,7 +33,7 @@ def groups_list(request):
     return render(request, 'students/groups_list.html',{'groups': groups})
 
 def groups_add(request):
-
+    ''' Add groups method '''
     # Form POST == YES:
     if request.method == 'POST':
         # add_button == push:
@@ -84,6 +84,7 @@ def groups_add(request):
         return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name')})
 
 def groups_edit(request, gid):
+    ''' Edit groups method '''
     # Form POST == YES:
     if request.method == 'POST':
         # add_button == PUSH:
@@ -125,7 +126,7 @@ def groups_edit(request, gid):
                                                                     'errors': errors,
                                                                     'gid': gid})
         # cancel_button == PUSH:
-        if request.POST.get('cancel_button') is not None:
+        elif request.POST.get('cancel_button') is not None:
             # redirect to groups page with cancel status message:
             return HttpResponseRedirect(u'%s?status_message=Редагування скасовано!' % reverse('groups'))
     # Form POST == NO:
@@ -135,4 +136,22 @@ def groups_edit(request, gid):
                                                             'students': Student.objects.all().order_by('last_name')})
 
 def groups_delete(request, gid):
-    return HttpResponse('<h1>Delete Group %s</h1>' % gid)
+    ''' Delete groups method '''
+    # Form POST == YES:
+    if request.method == 'POST':
+        # delete_button = PUSH:
+        if request.POST.get('delete_button') is not None:
+            # get select group object:
+            group = Group.objects.get(pk=gid)
+            # delete select group from database:
+            group.delete()
+            # redirect to groups page with success message:
+            return HttpResposeRedirect(u'%s?status_message=Групу %s успішно видалено!' % (reverse('groups'), group))
+
+        # cancel_button = PUSH:
+        elif request.POST.get('cancel_button') is not None:
+            # redirect to groups page with cancel status message:
+            return HttpResponseRedirect(u"%s?status_message=Видалення групи скасовано!" % reverse('groups'))
+    else:
+        # initial Form render:
+        return render(request, 'students/groups_config_delete.html', {'group': Group.objects.get(pk=gid)})
