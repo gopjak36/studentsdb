@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.views.generic.edit import CreateView
 from ..models import Group, Student
 
 # Views For Groups
@@ -32,56 +33,25 @@ def groups_list(request):
 
     return render(request, 'students/groups_list.html',{'groups': groups})
 
-def groups_add(request):
-    ''' Add groups method '''
-    # Form POST == YES:
-    if request.method == 'POST':
-        # add_button == push:
-        if request.POST.get('add_button') is not None:
-            # errors collection:
-            errors ={}
-            # don't validate group data:
-            data = {'notes': request.POST.get('notes')}
-            # Title validate:
-            title = request.POST.get('title').strip()
-            if not title:
-                errors['title'] = u"Назва є обов'язковою"
-            else:
-                data['title'] = title
-            # Leader validate:
-            leader = request.POST.get('leader')
-            if not leader:
-                errors['leader'] = u"Оберіть старосту для групи"
-            else:
-                # Validation Leader group:
-                leader = Student.objects.get(pk=request.POST['leader'])
-                # Student have group == NO:
-                if not leader.student_group:
-                    errors['leader'] = u"Студент не може бути старостою, бо не належить до жодної групи"
-                # Student group title (behove) == title:
-                elif leader.student_group.title != title:
-                    errors['leader'] = u"Студент не може бути старостою, бо не належить до даної групи"
-                else:
-                    data['leader'] = leader
-            if not errors:
-                # create new group object:
-                group = Group(**data)
-                # save group to database:
-                group.save()
-                # redirect to group list and success status message:
-                return HttpResponseRedirect(u'%s?status_message=Групу %s успішно додано!' % (reverse('groups'), title))
-            else:
-                # redirect form with erros and previus user input:
-                return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name'),
-                                                                    'errors': errors})
-        # cancel_button == push:
-        elif request.POST.get('cancel_button') is not None:
-            # redirect to group_list and cancel status message:
-            return HttpResponseRedirect(u'%s?status_message=Додавання скасовано!' % reverse('groups'))
-    # Form POST == NO:
-    else:
-        # initial form render:
-        return render(request, 'students/groups_add.html', {'students': Student.objects.all().order_by('last_name')})
+class GroupCreateView(CreateView):
+    model = Group # Model for add Group
+    template_name = 'students/groups_add.html' # Template for form
+
+    # Add_button == PUSH and not ValidationErrors:
+    def get_success_url(self):
+        # redirect to groups page with success message:
+        return u"%s?status_message=Групу %s успішно додано!" % (reverse('groups'), self.object)
+
+    def post(self, request, *args, **kwargs):
+        # Cancle_button == PUSH
+        if request.POST.get('cancel_button'):
+            # redirect to groups page with cancel message:
+            return HttpResponseRedirect(u"%s?status_message=Додавання скасовано!" % reverse('groups'))
+        else:
+            # initial Form render:
+            return super(GroupCreateView, self).post(request,*args,**kwargs)
+
+
 
 def groups_edit(request, gid):
     ''' Edit groups method '''

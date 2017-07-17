@@ -56,7 +56,7 @@
             {% url "home" as url_home %}
             <li role="presentation"{% if request.path == url_home %} class="active" {% endif %}><a href="{% url "home" %}">Студенти</a></li>
             {% url "journal" as url_journal %}
-            <li role="presentation"{% if request.path == url_journal  %} class="active" {% endif %}><a href="{% url 'journal' %}">Віідвідування</a></li>
+            <li role="presentation"{% if request.path == url_journal  %} class="active" {% endif %}><a href="{% url 'journal' %}">Відвідування</a></li>
             {% url "groups" as url_groups %}
             <li role="presentation"{% if request.path == url_groups %} class="active" {% endif %}><a href="{% url "groups" %}">Групи</a></li>
             {% url "exams" as url_exams %}
