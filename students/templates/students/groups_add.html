@@ -2,21 +2,22 @@
 
 {% load static from staticfiles %}
 
+{% load crispy_forms_tags %}
+
 {% block meta_title %}Додати Групу{% endblock meta_title %}
 
 {% block title %}Додати Групу{% endblock title %}
 
-{% block content %}
-  <form class="form-horizontal" role="form" action="{% url 'groups_add' %}" method="post" enctype="multipart/form-data">
-
-    {% csrf_token %}
-
-      {{ form.as_p }}
-
-    <div>
-      <input type="submit" value="Додати" name="add_button" class="btn btn-primary" />
-      <input type="submit" value="Скасувати" name="cancel_button" class="btn btn-default" />
+{% block status_message %}
+  {% if form.errors %}
+    <div class="alert alert-warning" role="alert">
+      Будь-ластка, виправте наступні помилки!
     </div>
+  {% endif %}
+{% endblock status_message %}
 
-  </form>
+{% block content %}
+
+  {% crispy form %}
+
 {% endblock content %}

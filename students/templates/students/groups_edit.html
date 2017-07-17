@@ -25,7 +25,7 @@
           <select class="form-control" name="leader" id ="leader">
             <option value="">Виберіть старосту</option>
             {% for student in students %}
-              <option value="{{ student.id }}" {% if student.id == request.POST.leader|add:0 %}selected="1"{% endif %}>{{ student }}</option>
+              <option value="{{ student.id }}" {% if student.id == request.POST.leader|add:0 %}selected="1"{% endif %}{% if student.id == group.leader.id %}selected="1"{% endif %}>{{ student }}</option>
             {% endfor %}
           </select>
           <span class="help-block">{{ errors.leader }}</span>
