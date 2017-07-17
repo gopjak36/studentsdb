@@ -87,6 +87,13 @@
             </div>
           {% endif %}
 
+          <!-- Status message with request for class View -->
+          {% if form.errors %}
+            <div class="alert alert-warning" role="alert">
+              Будь-ластка, виправте наступні помилки!
+            </div>
+          {% endif %}
+
           <!-- Status message with request -->
           {% if request.GET.status_message %}
           <div class="alert alert-warning" role="alert">
