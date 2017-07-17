@@ -7,17 +7,17 @@
 {% block title %}Видалити Групу{% endblock title %}
 
 {% block content %}
-  <form action="{% url 'groups_delete' group.id %}" method='post' enctype="multipart/form-data">
+  <form action="{% url 'groups_delete' object.id %}" method='post' enctype="multipart/form-data">
     {% csrf_token %}
 
-    <p>Ви дійсно хочете видалити групу: "{{ group }}"?</p>
+    <p>Ви дійсно хочете видалити групу: "{{ object }}"?</p>
 
     <input type="submit" value="Так" name="delete_button"
            class="btn btn-danger" />
 
-    <button type="submit" value="Скасувати"
-            name="cancel_button"
-            class="btn btn-default">Скасувати</button>
+    <input type="submit" value="Скасувати" name="cancel_button"
+            class="btn btn-default" />
+
   </form>
 
 {% endblock content %}

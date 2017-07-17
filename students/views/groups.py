@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.views.generic.edit import CreateView
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DeleteView
 from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
@@ -112,23 +112,19 @@ class GroupEditView(UpdateView):
             return super(GroupEditView, self).post(request,*args,**kwargs)
 
 
-def groups_delete(request, gid):
-    ''' Delete groups method '''
-    # Form POST == YES:
-    if request.method == 'POST':
-        # delete_button = PUSH:
-        if request.POST.get('delete_button') is not None:
-            # get select group object:
-            group = Group.objects.get(pk=gid)
-            # delete select group from database:
-            group.delete()
-            # redirect to groups page with success message:
-            return HttpResponseRedirect(u'%s?status_message=Групу %s успішно видалено!' % (reverse('groups'), group))
+class GroupDeleteView(DeleteView):
+    model = Group # model for delete Group
+    template_name = 'students/groups_config_delete.html' # template for Form
 
+    # delete_button = PUSH:
+    def get_success_url(self):
+        # redirect to groups page with success message:
+        return u'%s?status_message=Групу %s успішно видалено!' % (reverse('groups'), self.object)
+
+    def post(self,request,*args,**kwargs):
         # cancel_button = PUSH:
-        elif request.POST.get('cancel_button') is not None:
+        if request.POST.get('cancel_button'):
             # redirect to groups page with cancel status message:
             return HttpResponseRedirect(u"%s?status_message=Видалення групи скасовано!" % reverse('groups'))
-    else:
-        # initial Form render:
-        return render(request, 'students/groups_config_delete.html', {'group': Group.objects.get(pk=gid)})
+        else:
+            return super(GroupDeleteView, self).post(request,*args,**kwargs)
