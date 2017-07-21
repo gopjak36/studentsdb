@@ -83,6 +83,24 @@ class GroupCreateView(CreateView):
         # redirect to groups page with success message:
         return u"%s?status_message=Групу %s успішно додано!" % (reverse('groups'), self.object)
 
+    def form_valid(self, form):
+        # User Input group data == FALSE:
+        if form.cleaned_data['leader'] is not None:
+            # Leader have group == FALSE:
+            if form.cleaned_data['leader'].student_group is None:
+                # Add Error message:
+                form.add_error('leader','Студент не може бути старостою, бо не належить до жодної групи')
+                # Return Invalid Form:
+                return self.form_invalid(form)
+            # Leader is in other group == TRUE:
+            elif form.cleaned_data['leader'].student_group.title != form.cleaned_data['title']:
+                # Add Error message:
+                form.add_error('leader','Студент не може бути старостою, бо не належить до даної групи')
+                # Return Invalid Form:
+                return self.form_invalid(form)
+        # initial Form:
+        return super(GroupCreateView,self).form_valid(form)
+
     def post(self, request, *args, **kwargs):
         # Cancle_button == PUSH
         if request.POST.get('cancel_button'):
@@ -101,6 +119,24 @@ class GroupEditView(UpdateView):
     def get_success_url(self):
         # redirect to groups page with succes message:
         return u"%s?status_message=Групу %s успішно збережено!" % (reverse('groups'), self.object.title)
+
+    def form_valid(self, form):
+        # User Input group data == FALSE:
+        if form.cleaned_data['leader'] is not None:
+            # Leader have group == FALSE:
+            if form.cleaned_data['leader'].student_group is None:
+                # Add Error message:
+                form.add_error('leader','Студент не може бути старостою, бо не належить до жодної групи')
+                # Return Invalid Form:
+                return self.form_invalid(form)
+            # Leader is in other group == TRUE:
+            elif form.cleaned_data['leader'].student_group.title != form.cleaned_data['title']:
+                # Add Error message:
+                form.add_error('leader','Студент не може бути старостою, бо не належить до даної групи')
+                # Return Invalid Form:
+                return self.form_invalid(form)
+        # initial Form:
+        return super(GroupEditView,self).form_valid(form)
 
     def post(self,request,*args,**kwargs):
         # cancel_button == PUSH:
