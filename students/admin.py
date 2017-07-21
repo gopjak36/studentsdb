@@ -62,12 +62,16 @@ class GroupFormAdmin(ModelForm):
             # chek if leader form is empty:
             if not self.cleaned_data['leader']:
                 return self.cleaned_data['leader']
-            # chek if student is in other groups:
-            elif self.cleaned_data['leader'].student_group.title != self.cleaned_data['title'] :
-                raise ValidationError('Студент не може бути старостою, бо належить до іншої групи')
-            # update info about student:
-            else:
-                return self.cleaned_data['leader']
+            try:
+                # chek if student is in other groups:
+                if self.cleaned_data['leader'].student_group.title != self.cleaned_data['title']:
+                    raise ValidationError('Студент не може бути старостою, бо належить до іншої групи')
+                # update info about student:
+                else:
+                    return self.cleaned_data['leader']
+            except KeyError:
+                # check if user don't input title:
+                raise ValidationError('Напишіть назву групи')
         # check if student is not in any group:
         except AttributeError:
             raise ValidationError('Студент не належить до груп, додайте студунта в групу')
