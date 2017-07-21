@@ -37,6 +37,9 @@ urlpatterns = patterns('',
     # Exam urls
     url(r'^exams/$', 'students.views.exams_list', name="exams"),
 
+    # Add Exam urls
+    url(r'^exams/add/$', 'students.views.exams_add', name="exams_add"),
+
     # Result urls
     url(r'^result/$', 'students.views.results_list', name="results"),
 

@@ -8,6 +8,9 @@
 
 {% block content %}
 
+  <!-- Add Exams Button -->
+  <a class="btn btn-primary" href="{% url 'exams_add' %}" id="btn-link">Додати Іспит</a>
+
   <table class="table table-hover table-striped">
     <!-- Start Table Head -->
     {% with order_by=request.GET.order_by reverse=request.GET.reverse %}

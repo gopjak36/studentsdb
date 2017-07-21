@@ -17,3 +17,8 @@ def exams_list(request):
             exams = exams.reverse()
 
     return render(request, 'students/exams_list.html', {'exams': exams})
+
+
+def exams_add(request):
+
+    return render(request, 'students/exams_add.html',{})
