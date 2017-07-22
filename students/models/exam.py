@@ -17,8 +17,8 @@ class Exam(models.Model):
     group = models.ForeignKey("Group",
             verbose_name=u"Група",
             blank=False,
-            null=False
-            )
+            null=True,
+            on_delete=models.SET_NULL)
 
     lecturer = models.CharField(
             verbose_name=u"Викладач",
