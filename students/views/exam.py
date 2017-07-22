@@ -82,3 +82,11 @@ def exams_add(request):
     else:
         # initial form:
         return render(request, 'students/exams_add.html',{'groups': Group.objects.all()})
+
+def exams_edit(request,eid):
+    ''' Edit Exam method '''
+    return render(request, 'students/exams_edit.html', {'eid': eid})
+
+def exams_delete(request,eid):
+    ''' Delete Exam method '''
+    return render(request, 'students/exams_config_delete.html', {'eid': eid})

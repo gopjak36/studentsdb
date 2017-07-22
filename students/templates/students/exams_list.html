@@ -37,6 +37,7 @@
           {% endif %}
         </a>
       </th>
+      <th>Дії</th>
     </thead>
     {% endwith %}
     <!--End Table Head -->
@@ -51,6 +52,24 @@
           <td><a href="{% url 'groups_edit' exam.group.id  %}">{{ exam.group.title }}</a></td>
           <td>{{ exam.lecturer }}</td>
           <td>{{ exam.time }}</td>
+          <td>
+            <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle"
+                    type="button"  data-toggle="dropdown">Дія
+                    <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1"
+                    href="{% url 'exams_edit' exam.id %}">Редагувати</a>
+              </li>
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1"
+                    href="{% url 'exams_delete' exam.id %}">Видалити</a>
+              </li>
+            </ul>
+          </div>
+          </td>
         </tr>
       {% endfor %}
       <!-- End Exams Info -->
