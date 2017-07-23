@@ -34,20 +34,7 @@ urlpatterns = patterns('',
     # Journal urls
     url(r'^journal/(?P<pk>\d+)?/?$', JournalView.as_view(), name="journal"),
 
-    # Exam urls
-    url(r'^exams/$', 'students.views.exams_list', name="exams"),
-
-    # Add Exam urls
-    url(r'^exams/add/$', 'students.views.exams_add', name="exams_add"),
-
-    # Edit Exam urls
-    url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams_edit', name="exams_edit"),
-
-    # Delete Exam urls
-    url(r'^exams/(?P<eid>\d+)/delete/$', 'students.views.exams_delete', name="exams_delete"),
-
-    # Result urls
-    url(r'^result/$', 'students.views.results_list', name="results"),
+    # Exams urls
 
     # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),

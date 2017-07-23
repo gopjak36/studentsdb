@@ -59,10 +59,6 @@
             <li role="presentation"{% if request.path == url_journal  %} class="active" {% endif %}><a href="{% url 'journal' %}">Відвідування</a></li>
             {% url "groups" as url_groups %}
             <li role="presentation"{% if request.path == url_groups %} class="active" {% endif %}><a href="{% url "groups" %}">Групи</a></li>
-            {% url "exams" as url_exams %}
-            <li role="presentation"{% if request.path == url_exams %} class="active" {% endif %}><a href="{% url "exams" %}">Іспити</a></li>
-            {% url "results" as url_results %}
-            <li role="presentation"{% if request.path == url_results %} class="active" {% endif %}><a href="{% url "results" %}">Результати</a></li>
             {% url 'contact_admin' as url_contact_admin %}
             <li role="presentation"{% if request.path == url_contact_admin %}class="active"{% endif %}><a href="{% url 'contact_admin' %}">Контакт</a></li>
           </ul>
