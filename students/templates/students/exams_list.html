@@ -51,7 +51,7 @@
     {% for exam in exams %}
     <tr>
       <td>{% if order_by == 'id' and reverse == '1' %}{{ forloop.revcounter0|add:exams.end_index}}{% else %}{{ forloop.counter0|add:exams.start_index}}{% endif %}</td>
-      <td><a href="#">{{ exam.title }}</a></td>
+      <td><a href="{% url 'exams_edit' exam.id %}">{{ exam.title }}</a></td>
       <td><a href="{% url 'groups_edit' exam.group_name.id %}">{{ exam.group_name }}</td>
       <td>{{ exam.lecture }}</td>
       <td><ins>{{ exam.datetime|date:"d-m-y H:i" }}</ins></td>
@@ -61,7 +61,7 @@
             Дія <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Редагувати</a></li>
+            <li><a href="{% url 'exams_edit' exam.id %}">Редагувати</a></li>
             <li><a href="#">Видалити</a></li>
           </ul>
         </div>

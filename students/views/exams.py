@@ -94,3 +94,73 @@ def exams_add(request):
     else:
         # initial form:
         return render(request, 'students/exams_add.html',{'groups': Group.objects.all()})
+
+def exams_edit(request,eid):
+    ''' Exams Edit method '''
+    # Method == POST:
+    if request.method == 'POST':
+        # Add_button == PUSH:
+        if request.POST.get('add_button') is not None:
+            errors = {} # errors collection
+            data = {'notes': request.POST.get('notes')} # data collection
+
+            # Validation data:
+
+            # Title validation:
+            title = request.POST.get('title')
+            if not title:
+                errors['title'] = u" Назва Іспиту є є обов’язковою"
+            else:
+                data['title'] = title
+            # Group name validation:
+            group_name = request.POST.get('group_name')
+            if not group_name:
+                errors['group_name'] = u" Оберіть групу для іспиту"
+            else:
+                data['group_name'] = Group.objects.get(pk=group_name)
+            # Lecture validatin:
+            lecture = request.POST.get('lecture')
+            if not lecture:
+                errors['lecture'] = u" Викладач для Іспиту є є обов’язковим"
+            else:
+                data['lecture'] = lecture
+            # DataTime validation:
+            time = request.POST.get('datetime')
+            if not time:
+                errors['datetime'] = u"Дата Іспиту є є обов’язковою"
+            else:
+                try:
+                    time = datetime.strptime(time, '%Y-%m-%d %H:%M')
+                except ValueError:
+                    errors['datetime'] = u"Введіть коректний формат дати (Наприклад: 2017-9-25 9:30)"
+                else:
+                    data['datetime'] = time
+
+            # Not errors:
+            if not errors:
+                # update data in Exams object:
+                Exams.objects.filter(pk=eid).update(**data)
+                # redirect to exams page with success mwssage:
+                return HttpResponseRedirect(u'%s?status_message=Іспит %s успішно збережено!' % (reverse('exams_list'), title))
+            # Yes errors:
+            else:
+                # redirect form with errors and previus input data:
+                return render(request, 'students/exams_edit.html',{'eid': eid,
+                                                                  'exams': Exams(**data),
+                                                                  'groups': Group.objects.all().order_by('title'),
+                                                                  'errors': errors})
+        # Cancel_button == PUSH:
+        elif request.POST.get('cancel_button') is not None:
+            # redirect to exams list with cancel status message:
+            return HttpResponseRedirect(u'%s?status_message=Редагування Іспиту скасовано!' % reverse('exams_list'))
+    # Method != POST:
+    else:
+        # help variables for current_group, because can't auto select current group:
+        # !!! Initial Form is't method POST !!!
+        current_exams = Exams.objects.get(id=eid) # current Exams
+        current_group = current_exams.group_name # current Group
+        # Initial Exams Form:
+        return render(request, 'students/exams_edit.html', {'eid': eid,
+                                                            'exams': current_exams,
+                                                            'groups': Group.objects.all().order_by('title'),
+                                                            'current_group': current_group} )
