@@ -36,7 +36,10 @@ urlpatterns = patterns('',
 
     # Exams urls
     url(r'^exams/$', 'students.views.exams_list', name="exams_list"),
-    
+
+    # Add Exams urls
+    url(r'^exams/add/$', 'students.views.exams_add', name="exams_add"),
+
     # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
 

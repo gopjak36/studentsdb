@@ -31,6 +31,7 @@ class Exams(models.Model):
 
     notes = models.TextField(
                 blank=True,
+                null=True,
                 verbose_name=u"Додаткові нотатки")
 
 
