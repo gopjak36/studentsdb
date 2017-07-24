@@ -1,0 +1,98 @@
+{% extends 'students/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Список Іспитів {% endblock meta_title %}
+
+{% block title %} Список Іспитів {% endblock title %}
+
+{% block content %}
+
+<!-- Add Exams Button -->
+<a class="btn btn-primary" id="btn-link" href="#">Додати Іспит</a>
+
+<!-- Table Start -->
+<table class="table table-hover table-striped">
+
+  <!-- Head of Table Start -->
+  {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+  <thead id="table-head" >
+    <tr class="table-bordered">
+      <th><a href="{% url 'exams_list'%}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">#
+        {% if order_by == 'id' and reverse != '1' %}&uarr;
+        {% elif order_by == 'id' and reverse == '1' %}&darr;
+        {% endif %}
+      </a></th>
+      <th><a href="{% url 'exams_list'%}?order_by=title{% if order_by == 'title' and reverse != '1' %}&amp;reverse=1{% endif %}">Назва Іспиту
+        {% if order_by == 'title' and reverse != '1' %}&uarr;
+        {% elif order_by == 'title' and reverse == '1' %}&darr;
+        {% endif %}
+      </a></th>
+      <th><a href="{% url 'exams_list'%}?order_by=group_name{% if order_by == 'group_name' and reverse != '1' %}&amp;reverse=1{% endif %}">Група
+        {% if order_by == 'group_name' and reverse != '1' %}&uarr;
+        {% elif order_by == 'group_name' and reverse == '1' %}&darr;
+        {% endif %}
+      </a></th>
+      <th>Викладач</th>
+      <th><a href="{% url 'exams_list'%}?order_by=datetime{% if order_by == 'datetime' and reverse != '1' %}&amp;reverse=1{% endif %}">Дата та Час
+        {% if order_by == 'datetime' and reverse != '1' %}&uarr;
+        {% elif order_by == 'datetime' and reverse == '1' %}&darr;
+        {% endif %}
+      </a></th>
+      <th>Дії</th>
+    </tr>
+  </thead>
+  <!-- Head of Table End -->
+
+  <!-- Body of Table Start -->
+  <tbody>
+
+    <!-- Exam Content Start-->
+    {% for exam in exams %}
+    <tr>
+      <td>{% if order_by == 'id' and reverse == '1' %}{{ forloop.revcounter0|add:exams.end_index}}{% else %}{{ forloop.counter0|add:exams.start_index}}{% endif %}</td>
+      <td><a href="#">{{ exam.title }}</a></td>
+      <td><a href="{% url 'groups_edit' exam.group_name.id %}">{{ exam.group_name }}</td>
+      <td>{{ exam.lecture }}</td>
+      <td><ins>{{ exam.datetime|date:"d-m-y H:m" }}</ins></td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Дія <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Редагувати</a></li>
+            <li><a href="#">Видалити</a></li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+    <!-- Exam Content End-->
+
+  </tbody>
+  <!-- Body of Table End -->
+
+</table>
+<!-- Table End -->
+
+<!-- Exams Pagination Start-->
+{% if exams.has_other_pages %}
+<nav>
+  <ul class="pagination">
+
+    <li><a href="{% url 'exams_list' %}?page={{ exams.paginator.start_index }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&laquo;</a></li>
+    {% for index in exams.paginator.page_range %}
+    <li {% if exams.number == index %}class="active"{% endif %}>
+      <a href="{% url 'exams_list' %}?page={{ index }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ index }}</a>
+    </li>
+    {% endfor %}
+    <li><a href="{% url 'exams_list' %}?page={{ exams.paginator.num_pages }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&raquo;</a></li>
+
+  </ul>
+</nav>
+{% endif %}
+{% endwith %}
+<!-- Exams Pagination End-->
+
+{% endblock content %}

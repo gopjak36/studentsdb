@@ -35,7 +35,8 @@ urlpatterns = patterns('',
     url(r'^journal/(?P<pk>\d+)?/?$', JournalView.as_view(), name="journal"),
 
     # Exams urls
-
+    url(r'^exams/$', 'students.views.exams_list', name="exams_list"),
+    
     # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
 
