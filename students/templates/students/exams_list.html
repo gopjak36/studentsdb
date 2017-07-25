@@ -62,7 +62,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li><a href="{% url 'exams_edit' exam.id %}">Редагувати</a></li>
-            <li><a href="#">Видалити</a></li>
+            <li><a href="{% url 'exams_delete' exam.id %}">Видалити</a></li>
           </ul>
         </div>
       </td>

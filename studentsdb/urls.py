@@ -43,6 +43,9 @@ urlpatterns = patterns('',
     # Edit Exams urls
     url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams_edit', name="exams_edit"),
 
+    # Delete Exams urls
+    url(r'^exams/(?P<eid>\d+)/delete/$', 'students.views.exams_delete', name="exams_delete"),
+
     # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
 

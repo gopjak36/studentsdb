@@ -161,6 +161,27 @@ def exams_edit(request,eid):
         current_group = current_exams.group_name # current Group
         # Initial Exams Form:
         return render(request, 'students/exams_edit.html', {'eid': eid,
-                                                            'exams': current_exams,
+                                                           'exams': current_exams,
                                                             'groups': Group.objects.all().order_by('title'),
                                                             'current_group': current_group} )
+
+def exams_delete(request,eid):
+    ''' Exams Delete method '''
+    # Form POST == YES:
+    if request.method == 'POST':
+        # delete_button = PUSH:
+        if request.POST.get('delete_button') is not None:
+            # get select group object:
+            exams = Exams.objects.get(pk=eid)
+            # delete select group from database:
+            exams.delete()
+            # redirect to groups page with success message:
+            return HttpResponseRedirect(u'%s?status_message=Іспит %s успішно видалено!' % (reverse('exams_list'), exams.title))
+
+        # cancel_button = PUSH:
+        elif request.POST.get('cancel_button') is not None:
+            # redirect to groups page with cancel status message:
+            return HttpResponseRedirect(u"%s?status_message=Видалення Іспиту скасовано!" % reverse('exams_list'))
+    else:
+        # initial Form render:
+        return render(request, 'students/exams_delete.html', {'exams': Exams.objects.get(pk=eid)})
