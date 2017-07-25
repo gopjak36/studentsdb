@@ -5,6 +5,7 @@ from students.views.students import StudentCreateView, StudentUpdateView
 from students.views.groups import GroupCreateView, GroupEditView, GroupDeleteView
 from students.views.journal import JournalView
 from students.views.contact_admin import ContactView
+from students.views.exams import ExamsCreateView
 
 urlpatterns = patterns('',
     # Students urls
@@ -38,7 +39,7 @@ urlpatterns = patterns('',
     url(r'^exams/$', 'students.views.exams_list', name="exams_list"),
 
     # Add Exams urls
-    url(r'^exams/add/$', 'students.views.exams_add', name="exams_add"),
+    url(r'^exams/add/$', ExamsCreateView.as_view() , name="exams_add"),
 
     # Edit Exams urls
     url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams_edit', name="exams_edit"),

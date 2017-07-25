@@ -36,4 +36,4 @@ class Exams(models.Model):
 
 
     def __unicode__(self):
-        return u"%s (%s) %s" % (self.title, self.group_name, self.datetime)
+        return u"%s (%s)" % (self.title, self.group_name)
