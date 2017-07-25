@@ -5,7 +5,7 @@ from students.views.students import StudentCreateView, StudentUpdateView
 from students.views.groups import GroupCreateView, GroupEditView, GroupDeleteView
 from students.views.journal import JournalView
 from students.views.contact_admin import ContactView
-from students.views.exams import ExamsCreateView, ExamsEditView
+from students.views.exams import ExamsCreateView, ExamsEditView, ExamsDeleteView
 
 urlpatterns = patterns('',
     # Students urls
@@ -45,7 +45,7 @@ urlpatterns = patterns('',
     url(r'^exams/(?P<pk>\d+)/edit/$', ExamsEditView.as_view() , name="exams_edit"),
 
     # Delete Exams urls
-    url(r'^exams/(?P<eid>\d+)/delete/$', 'students.views.exams_delete', name="exams_delete"),
+    url(r'^exams/(?P<pk>\d+)/delete/$', ExamsDeleteView.as_view() , name="exams_delete"),
 
     # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),

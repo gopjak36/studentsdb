@@ -8,10 +8,10 @@
 
 {% block content %}
 
-<form action="{% url 'exams_delete' exams.id %}" method='post' enctype="multipart/form-data">
+<form action="{% url 'exams_delete' object.id %}" method='post' enctype="multipart/form-data">
     {% csrf_token %}
 
-    <p>Ви дійсно хочете видалити групу: "{{ exams.title }}" для "{{ exams.group_name}}"?</p>
+    <p>Ви дійсно хочете видалити групу: "{{ object.title }}" для "{{ exams.group_name}}"?</p>
 
     <input type="submit" value="Так" name="delete_button"
            class="btn btn-danger" />

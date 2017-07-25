@@ -115,23 +115,19 @@ class ExamsEditView(UpdateView):
             # initial Form render:
             return super(ExamsEditView, self).post(request,*args,**kwargs)
 
-def exams_delete(request,eid):
-    ''' Exams Delete method '''
-    # Form POST == YES:
-    if request.method == 'POST':
-        # delete_button = PUSH:
-        if request.POST.get('delete_button') is not None:
-            # get select group object:
-            exams = Exams.objects.get(pk=eid)
-            # delete select group from database:
-            exams.delete()
-            # redirect to groups page with success message:
-            return HttpResponseRedirect(u'%s?status_message=Іспит %s успішно видалено!' % (reverse('exams_list'), exams.title))
+class ExamsDeleteView(DeleteView):
+    model = Exams # model for delete Group
+    template_name = 'students/exams_delete.html' # template for Form
 
+    # delete_button = PUSH:
+    def get_success_url(self):
+        # redirect to groups page with success message:
+        return u'%s?status_message=Іспит %s успішно видалено!' % (reverse('exams_list'), self.object)
+
+    def post(self,request,*args,**kwargs):
         # cancel_button = PUSH:
-        elif request.POST.get('cancel_button') is not None:
+        if request.POST.get('cancel_button'):
             # redirect to groups page with cancel status message:
             return HttpResponseRedirect(u"%s?status_message=Видалення Іспиту скасовано!" % reverse('exams_list'))
-    else:
-        # initial Form render:
-        return render(request, 'students/exams_delete.html', {'exams': Exams.objects.get(pk=eid)})
+        else:
+            return super(ExamsDeleteView, self).post(request,*args,**kwargs)
