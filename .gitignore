@@ -9,3 +9,4 @@ db.py
 /static
 security.py
 email_password.py
+db.sqlite3

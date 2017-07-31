@@ -7,6 +7,14 @@
 {% block title %}Групи{% endblock title %}
 
 {% block content %}
+
+{% if not groups %}
+  <div class="aler alert-warning">
+      Поки немає жодної Групи в базі. Будь-ласка,
+      <a href="{% url 'groups_add' %}">додайте першу.</a>
+  </div>
+{% else %}
+
 <!-- Group  Button-->
 <a class="btn btn-primary" href="{% url 'groups_add' %}" id="btn-link">Додати Групу</a>
 
@@ -94,6 +102,8 @@
   </ul>
 </nav>
 {% endwith %}
+{% endif %}
+
 {% endif %}
 
 {% endblock content %}

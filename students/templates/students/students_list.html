@@ -7,6 +7,14 @@
 {% block title %}База Студентів{% endblock title %}
 
 {% block content %}
+
+{% if not students %}
+  <div class="aler alert-warning">
+      Поки немає жодного Студента в базі. Будь-ласка,
+      <a href="{% url 'students_add' %}">додайте першого.</a>
+  </div>
+{% else %}
+
 <!--Add Student Button -->
 <a href="{% url "students_add" %}" class="btn btn-primary" >Додати Студента</a>
 
@@ -110,6 +118,8 @@
   </ul>
 </nav>
 {% endwith %}
+{% endif %}
+
 {% endif %}
 
 {% endblock content %}
