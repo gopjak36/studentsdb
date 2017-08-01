@@ -1,0 +1,74 @@
+{% extends 'students/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Список Результатів {% endblock meta_title %}
+
+{% block title %} Список Результатів {% endblock title %}
+
+{% block content %}
+
+  {% if not ids %}
+    <div class="aler alert-warning">
+        Поки немає жодного Результату в базі. Будь-ласка,
+        <a href="#">додайте перший.</a>
+    </div>
+  {% else %}
+
+  <!-- Add Exams Button -->
+  <a class="btn btn-primary" id="btn-link" href="#">Додати Результат</a>
+
+    <!-- Table Start -->
+    <table class="table table-hover table-striped">
+
+      <!-- Head of Table Start -->
+      <thead id="table-head" >
+        <tr class="table-bordered">
+          <th>#</th>
+          <th>Іспит</th>
+          <th>Група</th>
+          <th>Викладач</th>
+          <th>Результати</th>
+          <th>Дії</th>
+        </tr>
+      </thead>
+      <!-- Head of Table End -->
+
+      <!-- Body of Table Start -->
+      <tbody>
+
+        <!-- Exam Content Start-->
+        {% for result in results_list %}
+          {% if result.id in ids %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ result.title }}</td>
+              <td>{{ result.group_name }}</td>
+              <td>{{ result.lecture }}</td>
+              <td><a href="#" class="btn btn-primary">Результати</a></td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Дія <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Подивитися</a></li>
+                    <li><a href="#">Редагувати</a></li>
+                    <li><a href="#">Видалити</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+        <!-- Exam Content End-->
+
+      </tbody>
+      <!-- Body of Table End -->
+
+    </table>
+    <!-- Table End -->
+
+  {% endif %}
+
+{% endblock content %}

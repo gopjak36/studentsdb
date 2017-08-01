@@ -50,6 +50,9 @@ urlpatterns = patterns('',
     # Contact Admin Form url:
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
 
+    # Results urls
+    url(r'^results/$', 'students.views.results_list', name="results_list"),
+
     # Admin Panel url:
     url(r'^admin/', include(admin.site.urls)),
 )
