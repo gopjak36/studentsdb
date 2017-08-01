@@ -1,0 +1,57 @@
+{% extends 'students/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Список Результатів {% endblock meta_title %}
+
+{% block title %} Список Результатів {% endblock title %}
+
+{% block content %}
+
+  <!-- Table Start -->
+  <table class="table table-hover table-striped">
+
+    <!-- Head of Table Start -->
+    <thead id="table-head" >
+      <tr class="table-bordered">
+        <th>Студент</th>
+        <th>Оцінка</th>
+        <th>Дії</th>
+      </tr>
+    </thead>
+    <!-- Head of Table End -->
+
+    <!-- Body of Table Start -->
+    <tbody>
+
+      <!-- Exam Content Start-->
+      {% for student in result %}
+        {% if student.student_group.id == rid.group_name.id %}
+          <tr>
+            <td><a href="{% url 'students_edit' student.id %}">{{ student.last_name }} {{ student.first_name }}</a></td>
+            <td>mark</td>
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Дія <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="">Результат</a></li>
+                  <li><a href="#">Редагувати</a></li>
+                  <li><a href="#">Видалити</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+      <!-- Exam Content End-->
+
+    </tbody>
+    <!-- Body of Table End -->
+
+  </table>
+  <!-- Table End -->
+
+
+{% endblock content %}

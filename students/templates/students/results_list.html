@@ -42,17 +42,17 @@
           {% if result.id in ids %}
             <tr>
               <td>{{ forloop.counter }}</td>
-              <td>{{ result.title }}</td>
-              <td>{{ result.group_name }}</td>
+              <td><a href="{% url 'exams_edit' result.id %}">{{ result.title }}</a></td>
+              <td><a href="{% url 'groups_edit' result.group_name.id %}">{{ result.group_name }}</a></td>
               <td>{{ result.lecture }}</td>
-              <td><a href="#" class="btn btn-primary">Результати</a></td>
+              <td><a href="{% url 'results_result' result.id %}" class="btn btn-primary">Результати</a></td>
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     Дія <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Подивитися</a></li>
+                    <li><a href="{% url 'results_result' result.id %}">Результати</a></li>
                     <li><a href="#">Редагувати</a></li>
                     <li><a href="#">Видалити</a></li>
                   </ul>

@@ -53,6 +53,9 @@ urlpatterns = patterns('',
     # Results urls
     url(r'^results/$', 'students.views.results_list', name="results_list"),
 
+    # Result urls
+    url(r'^result/(?P<rid>\d+)/$', 'students.views.results_result', name="results_result"),
+
     # Admin Panel url:
     url(r'^admin/', include(admin.site.urls)),
 )
