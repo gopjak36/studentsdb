@@ -2,9 +2,9 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %} Список Результатів {% endblock meta_title %}
+{% block meta_title %} {{ eid }} {% endblock meta_title %}
 
-{% block title %} Список Результатів {% endblock title %}
+{% block title %} {{ eid }} {% endblock title %}
 
 {% block content %}
 
@@ -25,20 +25,30 @@
     <tbody>
 
       <!-- Exam Content Start-->
-      {% for student in result %}
-        {% if student.student_group.id == rid.group_name.id %}
+      {% for student in students %}
+        {% if student.student_group.id == eid.group_name.id %}
           <tr>
             <td><a href="{% url 'students_edit' student.id %}">{{ student.last_name }} {{ student.first_name }}</a></td>
-            <td>mark</td>
+
+            <!-- Get current mark for current Student Start -->
+            <td>
+              {% for result in results %}
+                  {% if student == result.student %}
+                    <a class="btn btn-primary active">{{ result.mark }}</a>
+                  {% endif %}
+              {% endfor %}
+            </td>
+            <!-- Get current mark for current Student End -->
+
             <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   Дія <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="">Результат</a></li>
+                  <li><a href="{% url 'result_view' eid.id student.id %}">Результат</a></li>
                   <li><a href="#">Редагувати</a></li>
-                  <li><a href="#">Видалити</a></li>
+                  <li><a href="#">Очистити</a></li>
                 </ul>
               </div>
             </td>
