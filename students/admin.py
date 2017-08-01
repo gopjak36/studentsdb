@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from .models import Student, Group, MonthJournal, Exams
+from .models import Student, Group, MonthJournal, Exams, Result
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm, ValidationError
 
@@ -97,3 +97,5 @@ admin.site.register(Group, GroupAdmin)
 admin.site.register(MonthJournal)
 # Register Exams model:
 admin.site.register(Exams)
+# Register Result model:
+admin.site.register(Result)
