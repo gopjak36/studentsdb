@@ -53,7 +53,7 @@
     <!-- Start Groups -->
     {% for group in groups %}
     <tr>
-      <td>{{ forloop.counter }}</td>
+      <td>{{ forloop.counter0|add:groups.start_index  }}</td>
       <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.title }}</td>
       <td><a title="Редагувати" {% if group.leader %} href="{% url 'students_edit' group.leader.id %}"{% endif %}>{{ group.leader }}</td>
       <td>

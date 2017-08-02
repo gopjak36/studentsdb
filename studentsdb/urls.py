@@ -53,6 +53,9 @@ urlpatterns = patterns('',
     # Results urls
     url(r'^results/$', 'students.views.results_list', name="results_list"),
 
+    # Results Add urls
+    url(r'^results/register/$', 'students.views.results_register', name="results_register"),
+
     # Result urls
     url(r'^result/(?P<eid>\d+)/$', 'students.views.results_result', name="results_result"),
 

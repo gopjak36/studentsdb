@@ -33,3 +33,22 @@ class Result(models.Model):
 
     def __unicode__(self):
         return u"%s (%s) - %s" % (self.student, self.exams_name, self.mark)
+
+
+class ResultsRegister(models.Model):
+    ''' List of avaliable Results '''
+
+    class Meta(object):
+        verbose_name = u"Реєстрація Результату"
+        verbose_name_plural = u"Реєстрація Результатів"
+
+    exam = models.ForeignKey('Exams',
+                    blank=False,
+                    null=True,
+                    on_delete=models.SET_NULL,
+                    verbose_name=u"Студент")
+
+    view = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u"%s %s" % (self.view, self.exam)
