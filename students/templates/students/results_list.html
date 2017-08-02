@@ -16,7 +16,7 @@
   {% else %}
 
   <!-- Add Exams Button -->
-  <a class="btn btn-primary" id="btn-link" href="{% url 'results_register' %}">Додати Результат</a>
+  <a class="btn btn-primary" id="btn-link" href="{% url 'results_register' %}">Зареєструвати Результат</a>
 
     <!-- Table Start -->
     <table class="table table-hover table-striped">
@@ -45,14 +45,14 @@
               <td><a href="{% url 'exams_edit' result.exam.id %}">{{ result.exam.title }}</a></td>
               <td><a href="{% url 'groups_edit' result.exam.group_name.id %}">{{ result.exam.group_name }}</a></td>
               <td>{{ result.exam.lecture }}</td>
-              <td><a href="{% url 'results_result' result.exam.id %}" class="btn btn-primary">Результати</a></td>
+              <td><a href="{% url 'result_list' result.exam.id %}" class="btn btn-primary">Результати</a></td>
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     Дія <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{% url 'results_result' result.exam.id %}">Результати</a></li>
+                    <li><a href="{% url 'result_list' result.exam.id %}">Результати</a></li>
                     <li><a href="{% url 'exams_edit' result.exam.id %}">Редагувати</a></li>
                     <li><a href="#">Видалити</a></li>
                   </ul>

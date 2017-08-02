@@ -14,4 +14,6 @@
     <div class="alert alert-warning">На даний момент оцінки ще немає. Ви можете додати її <a href="#">тут</a></div>
   {% endif %}
 
+  <a class="btn btn-primary" href="{% url 'result_list' eid.id %}"><span class="glyphicon glyphicon-arrow-left"> Всі Рузультати</span></a>
+
 {% endblock content %}

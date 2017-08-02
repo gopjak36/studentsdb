@@ -2,9 +2,9 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %} Зареєструвати Результа {% endblock meta_title %}
+{% block meta_title %} Зареєструвати Результат {% endblock meta_title %}
 
-{% block title %} Зареєструвати Результа {% endblock title %}
+{% block title %} Зареєструвати Результат {% endblock title %}
 
 {% block content %}
 
@@ -23,7 +23,7 @@
               <option value="{{ exam.id }}" {% if exam.id == request.POST.exams_list|add:0 %} selected="1" {% endif %}>{{ exam }}</value>
              {% endfor %}
          </select>
-         <span class="help-block">{{ error.exams_list }}</span>
+         <span class="help-block">{{ errors.exams_list }}</span>
           <!-- Avaliable Exams list End -->
         </div>
     </div>

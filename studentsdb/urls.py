@@ -57,10 +57,13 @@ urlpatterns = patterns('',
     url(r'^results/register/$', 'students.views.results_register', name="results_register"),
 
     # Result urls
-    url(r'^result/(?P<eid>\d+)/$', 'students.views.results_result', name="results_result"),
+    url(r'^result/(?P<eid>\d+)/$', 'students.views.result_list', name="result_list"),
 
     # Result View urls
     url(r'^result/(?P<eid>\d+)/(?P<sid>\d+)/view/$', 'students.views.result_view', name="result_view"),
+
+    # Result Add urls
+    url(r'^result/(?P<eid>\d+)/(?P<sid>\d+)/add$', 'students.views.result_add', name="result_add"),
 
     # Admin Panel url:
     url(r'^admin/', include(admin.site.urls)),
