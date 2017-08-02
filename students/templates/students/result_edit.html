@@ -2,39 +2,39 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %} Додати оцінку студенту {{ sid }} для іспиту {{ eid }}  {% endblock meta_title %}
+{% block meta_title %}   {% endblock meta_title %}
 
-{% block title %} Додати оцінку студенту {{ sid }} для іспиту {{ eid }} {% endblock title %}
+{% block title %}  {% endblock title %}
 
 {% block content %}
-  <form class="form-horizontal" method="post" action="{% url 'result_add' eid.id sid.id %}" enctype="multipart/form-data">
+  <form class="form-horizontal" method="post" action="{% url 'result_edit' result.exams_name.id result.student.id %}" enctype="multipart/form-data">
 
     {% csrf_token %}
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Назва Іспиту:</label>
       <div class="col-sm-10">
-        <input class="form-control" type="text" value="{{ eid }}" disabled>
+        <input class="form-control" type="text" value="{{ result.exams_name }}" disabled>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Студент:</label>
       <div class="col-sm-10">
-        <input class="form-control" type="text" value="{{ sid }}" disabled>
+        <input class="form-control" type="text" value="{{ result.student }}" disabled>
       </div>
     </div>
 
     <div class="form-group">
       <label for="mark" class="col-sm-2 control-label">Оцінка:</label>
       <div class="col-sm-10">
-        <input class="form-control" type="text" name="mark" id="mark" value="{{ request.POST.mark }}" placeholder="Оцінка від 1 до 40">
+        <input class="form-control" type="text" name="mark" id="mark" value="{% if request.POST.mark or request.POST.mark == '' %} {{ request.POST.mark }} {% else %} {{ result.mark }} {% endif %}" placeholder="Оцінка від 1 до 40">
         <span class="help-block">{{ errors.mark }}</span>
       </div>
     </div>
 
     <div>
-      <input type="submit" value="Додати" name="add_button" class="btn btn-primary" />
+      <input type="submit" value="Зберегти" name="add_button" class="btn btn-primary" />
       <input type="submit" value="Скасувати" name="cancel_button" class="btn btn-default" />
     </div>
 
