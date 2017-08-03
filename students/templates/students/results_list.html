@@ -54,7 +54,7 @@
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{% url 'result_list' result.exam.id %}">Результати</a></li>
                     <li><a href="{% url 'exams_edit' result.exam.id %}">Редагувати</a></li>
-                    <li><a href="#">Видалити</a></li>
+                    <li><a href="{% url 'results_delete' result.id %}">Видалити</a></li>
                   </ul>
                 </div>
               </td>

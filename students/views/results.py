@@ -53,6 +53,28 @@ def results_register(request):
         # Render Add Form Page:
         return render(request, 'students/results_register.html',{'exams_list':exams_list})
 
+def results_delete(request,rid):
+    ''' Results Delete method '''
+
+    # help variable:
+    rid = ResultsRegister.objects.get(id=rid)       # Get current ResultsList as object
+
+    # FORM == POST:
+    if request.method == 'POST':
+        # Add Button == PUSH:
+        if request.POST.get('add_button') is not None:
+            # delete ResultList object from database:
+            rid.delete()
+            # redirect to result list with success message:
+            return HttpResponseRedirect(u"%s?status_message=Результат %s успішно виделано!" % (reverse('results_list'), rid.exam))
+        # Cancel Button == PUSH:
+        elif request.POST.get('cancel_button') is not None:
+            # redirect to result list page with cancel message:
+            return HttpResponseRedirect(u"%s?status_message=Видалення результат %s скасовано !" % (reverse('results_list'), rid.exam))
+    else:
+        # Render Page:
+        return render(request,'students/results_delete.html', {'rid':rid})
+
 def result_list(request,eid):
     ''' Result list method '''
 

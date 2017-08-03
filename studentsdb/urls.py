@@ -53,8 +53,11 @@ urlpatterns = patterns('',
     # Results urls
     url(r'^results/$', 'students.views.results_list', name="results_list"),
 
-    # Results Add urls
+    # Results Register urls
     url(r'^results/register/$', 'students.views.results_register', name="results_register"),
+
+    # Results Delete urls
+    url(r'^results/(?P<rid>\d+)/delete/$', 'students.views.results_delete', name="results_delete"),
 
     # Result urls
     url(r'^result/(?P<eid>\d+)/$', 'students.views.result_list', name="result_list"),

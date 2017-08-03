@@ -1,0 +1,23 @@
+{% extends 'students/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Видалити Результат  {% endblock meta_title %}
+
+{% block title %} Видалити Результат {% endblock title %}
+
+{% block content %}
+  <form class="form-horizontal" method="post" action="{% url 'results_delete' rid.id %}" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <p>Ви дійсно хочете видалити рузультат {{ rid.exam }} ?</p>
+
+    <div>
+      <input type="submit" value="Видалити" name="add_button" class="btn btn-primary" />
+      <input type="submit" value="Скасувати" name="cancel_button" class="btn btn-default" />
+    </div>
+
+  </form>
+
+{% endblock content %}
