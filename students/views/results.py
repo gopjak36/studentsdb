@@ -147,13 +147,14 @@ def result_edit(request,eid,sid):
     result = Result.objects.filter(exams_name=eid,student=sid)      # Get current Result with current Student and Exams
 
     # Ckeck if current Result in database:
+
+    # Result in database == True:
     if len(result) == 1:
         result = Result.objects.get(id=result[0].id)                # Get current Result as object
-    # Result in database == True:
-        if request.method == 'POST':
         # Form POST == True:
-            if request.POST.get('add_button') is not None:
+        if request.method == 'POST':
             # Add button == PUSH:
+            if request.POST.get('add_button') is not None:
 
                 # help variable:
                 errors = {}   # errors collection
@@ -178,20 +179,54 @@ def result_edit(request,eid,sid):
                     # update data in Result object:
                     Result.objects.filter(id=result.id).update(mark=mark)
                     result = Result.objects.get(id=result.id)       # Get update result for status message
-                    # redirect to result list page with succes message:
+                    # redirect to result list page with success message:
                     return HttpResponseRedirect(u"%s?status_message=Оцінку для студенту %s змінено на %s!" % (reverse('result_list', kwargs={'eid':eid.id}), result.student, result.mark))
                 # Errors == True:
                 else:
                     # render Form with errors and input data from user:
                     return render(request,'students/result_edit.html', {'result':result, 'errors':errors})
             # Cancel button == PUSH:
-            elif request.POST.get('cancel_button'):
+            elif request.POST.get('cancel_button') is not None:
                 # redirect to result list with cancel message:
                 return HttpResponseRedirect(u"%s?status_message=Редагування оцінки для студента %s скасовано!" % (reverse('result_list', kwargs={'eid':eid.id}), sid))
         # Form POST == False:
         else:
             # Render Page with current Result data:
             return render(request, 'students/result_edit.html', {'result':result})
+    # Result in database == False:
+    else:
+        # redirect to result list page with errors message:
+        return HttpResponseRedirect(u"%s?status_message=Оцінка для студента %s ще не існує, додайте її!" % (reverse('result_list', kwargs={'eid':eid.id}), sid))
+
+def result_clean(request,eid,sid):
+    ''' Result Clean method '''
+
+    # Help variables:
+    eid = Exams.objects.get(id=eid)                                 # Get current Exams object
+    sid = Student.objects.get(id=sid)                               # Get current Student object
+    result = Result.objects.filter(exams_name=eid,student=sid)      # Get current Result with current Student and Exams
+
+    # Ckeck if current Result in database:
+
+    # Result in database == True:
+    if len(result) == 1:
+        result = Result.objects.get(id=result[0].id)                # Get current Result as object
+        # Form POST == True:
+        if request.method == 'POST':
+            # Add button == PUSH:
+            if request.POST.get('add_button') is not None:
+                # Delete Result object from database:
+                result.delete()
+                # redirect to result list page with success message:
+                return HttpResponseRedirect(u"%s?status_message=Оцінку для студента %s очищено!" % (reverse('result_list', kwargs={'eid':eid.id}), result.student))
+            # Cancel button == PUSH:
+            elif request.POST.get('cancel_button') is not None:
+                # redirect to result list with cancel message:
+                return HttpResponseRedirect(u"%s?status_message=Очищення оцінки для студента %s скасовано!" % (reverse('result_list', kwargs={'eid':eid.id}), sid))
+        # Form POST == False:
+        else:
+            # Render Page with current Result data:
+            return render(request, 'students/result_clean.html', {'result':result})
     # Result in database == False:
     else:
         # redirect to result list page with errors message:

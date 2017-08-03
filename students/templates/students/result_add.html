@@ -2,9 +2,9 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %} Додати оцінку студенту {{ sid }} для іспиту {{ eid }}  {% endblock meta_title %}
+{% block meta_title %} Додати оцінку студенту {% endblock meta_title %}
 
-{% block title %} Додати оцінку студенту {{ sid }} для іспиту {{ eid }} {% endblock title %}
+{% block title %} Додати оцінку студенту {% endblock title %}
 
 {% block content %}
   <form class="form-horizontal" method="post" action="{% url 'result_add' eid.id sid.id %}" enctype="multipart/form-data">

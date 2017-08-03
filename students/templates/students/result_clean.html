@@ -1,0 +1,23 @@
+{% extends 'students/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Очистити оцінку студента  {% endblock meta_title %}
+
+{% block title %} Очистити оцінку студента {% endblock title %}
+
+{% block content %}
+  <form class="form-horizontal" method="post" action="{% url 'result_clean' result.exams_name.id result.student.id %}" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <p>Ви дійсно хочете очистити оцінку {{ result.mark }} студенту {{ result.student }} для іспиту {{ result.exams_name }} ?</p>
+
+    <div>
+      <input type="submit" value="Очистити" name="add_button" class="btn btn-primary" />
+      <input type="submit" value="Скасувати" name="cancel_button" class="btn btn-default" />
+    </div>
+
+  </form>
+
+{% endblock content %}

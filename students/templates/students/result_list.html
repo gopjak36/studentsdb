@@ -49,7 +49,7 @@
                   <li><a href="{% url 'result_view' eid.id student.id %}">Результат</a></li>
                   <li><a href="{% url 'result_add' eid.id student.id %}">Додати</a></li>
                   <li><a href="{% url 'result_edit' eid.id student.id %}">Редагувати</a></li>
-                  <li><a href="#">Очистити</a></li>
+                  <li><a href="{% url 'result_clean' eid.id student.id %}">Очистити</a></li>
                 </ul>
               </div>
             </td>

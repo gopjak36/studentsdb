@@ -2,9 +2,9 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %}   {% endblock meta_title %}
+{% block meta_title %} Редагувати оцінку студента  {% endblock meta_title %}
 
-{% block title %}  {% endblock title %}
+{% block title %} Редагувати оцінку студента {% endblock title %}
 
 {% block content %}
   <form class="form-horizontal" method="post" action="{% url 'result_edit' result.exams_name.id result.student.id %}" enctype="multipart/form-data">
